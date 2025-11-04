@@ -305,7 +305,7 @@ class _ProjectCardState extends State<_ProjectCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         transform: Matrix4.identity()
-          ..translateByDouble(0.0, _isHovered ? -10.0 : 0.0, 0.0, 0.0),
+          ..translate(0.0, _isHovered ? -10.0 : 0.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),

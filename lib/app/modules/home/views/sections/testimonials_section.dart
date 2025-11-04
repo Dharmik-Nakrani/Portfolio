@@ -293,8 +293,7 @@ class _TestimonialCardState extends State<_TestimonialCard>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        transform: Matrix4.identity()
-          ..scaleByDouble(widget.isActive ? 1.0 : 0.80, 1.0, 1.0, 0.0),
+        transform: Matrix4.identity()..scale(widget.isActive ? 1.0 : 0.80),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
