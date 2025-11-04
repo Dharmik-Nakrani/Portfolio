@@ -106,7 +106,6 @@ class HomeController extends GetxController {
           }
         },
         onError: (error) {
-          print('Error loading profile: $error');
           hasError.value = true;
           errorMessage.value = 'Error loading profile data';
           isLoading.value = false;
@@ -125,7 +124,6 @@ class HomeController extends GetxController {
               .toList();
         },
         onError: (error) {
-          print('Error loading skills: $error');
         },
       );
 
@@ -141,7 +139,6 @@ class HomeController extends GetxController {
               .toList();
         },
         onError: (error) {
-          print('Error loading experiences: $error');
         },
       );
 
@@ -157,7 +154,6 @@ class HomeController extends GetxController {
               .toList();
         },
         onError: (error) {
-          print('Error loading certifications: $error');
         },
       );
 
@@ -172,7 +168,6 @@ class HomeController extends GetxController {
               )
               .toList();        },
         onError: (error) {
-          print('Error loading testimonials: $error');
         },
       );
 
@@ -186,14 +181,11 @@ class HomeController extends GetxController {
                 ),
               )
               .toList();
-          print("Test${projects}");
         },
         onError: (error) {
-          print('Error loading projects: $error');
         },
       );
     } catch (e) {
-      print('Error in _loadData: $e');
       hasError.value = true;
       errorMessage.value = 'Failed to initialize Firebase: $e';
       isLoading.value = false;

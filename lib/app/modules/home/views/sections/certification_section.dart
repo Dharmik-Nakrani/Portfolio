@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/data/models/certification_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controllers/home_controller.dart';
 import '../../../../theme/app_colors.dart';
@@ -11,7 +12,6 @@ class CertificationSection extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isWide = size.width >= 1200;
-    final isMobile = size.width < 600;
 
     return Container(
       width: double.infinity,
@@ -136,7 +136,7 @@ class CertificationSection extends GetView<HomeController> {
             Icon(
               Icons.workspace_premium_rounded,
               size: 100,
-              color: AppColors.themeColor.withOpacity(0.3),
+              color: AppColors.themeColor.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 20),
             Text(
@@ -144,7 +144,7 @@ class CertificationSection extends GetView<HomeController> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: AppColors.sectionDescription.withOpacity(0.6),
+                color: AppColors.sectionDescription.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -152,7 +152,7 @@ class CertificationSection extends GetView<HomeController> {
               'Professional credentials will appear here',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.sectionDescription.withOpacity(0.4),
+                color: AppColors.sectionDescription.withValues(alpha: 0.4),
               ),
             ),
           ],
@@ -204,7 +204,9 @@ class _AnimatedCircleState extends State<_AnimatedCircle>
             shape: BoxShape.circle,
             gradient: RadialGradient(
               colors: [
-                AppColors.themeColor.withOpacity(0.05 * _controller.value),
+                AppColors.themeColor.withValues(
+                  alpha: 0.05 * _controller.value,
+                ),
                 Colors.transparent,
               ],
             ),
@@ -237,7 +239,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -268,7 +270,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -283,7 +285,7 @@ class _SectionHeader extends StatelessWidget {
 
 // Certification Card with 3D effect
 class _CertificationCard extends StatefulWidget {
-  final certification;
+  final CertificationModel certification;
   final int index;
 
   const _CertificationCard({required this.certification, required this.index});
@@ -335,7 +337,7 @@ class _CertificationCardState extends State<_CertificationCard>
               boxShadow: _isHovered
                   ? [
                       BoxShadow(
-                        color: AppColors.themeColor.withOpacity(0.4),
+                        color: AppColors.themeColor.withValues(alpha: 0.4),
                         blurRadius: 30,
                         spreadRadius: 10,
                         offset: const Offset(0, 10),
@@ -343,7 +345,7 @@ class _CertificationCardState extends State<_CertificationCard>
                     ]
                   : [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withValues(alpha: 0.3),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
@@ -360,12 +362,12 @@ class _CertificationCardState extends State<_CertificationCard>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Colors.white.withOpacity(0.1),
-                          Colors.white.withOpacity(0.05),
+                          Colors.white.withValues(alpha: 0.1),
+                          Colors.white.withValues(alpha: 0.05),
                         ],
                       ),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(24),
@@ -387,7 +389,7 @@ class _CertificationCardState extends State<_CertificationCard>
                               end: Alignment(3 * _shimmerController.value, 1),
                               colors: [
                                 Colors.transparent,
-                                Colors.white.withOpacity(0.1),
+                                Colors.white.withValues(alpha: 0.1),
                                 Colors.transparent,
                               ],
                             ),
@@ -432,13 +434,15 @@ class _CertificationCardState extends State<_CertificationCard>
                             gradient: LinearGradient(
                               colors: [
                                 AppColors.themeColor,
-                                AppColors.themeColor.withOpacity(0.7),
+                                AppColors.themeColor.withValues(alpha: 0.7),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.themeColor.withOpacity(0.3),
+                                color: AppColors.themeColor.withValues(
+                                  alpha: 0.3,
+                                ),
                                 blurRadius: 10,
                                 spreadRadius: 2,
                               ),
@@ -472,7 +476,9 @@ class _CertificationCardState extends State<_CertificationCard>
                             'Tap to view credential',
                             style: TextStyle(
                               fontSize: 11,
-                              color: AppColors.themeColor.withOpacity(0.8),
+                              color: AppColors.themeColor.withValues(
+                                alpha: 0.8,
+                              ),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -490,7 +496,7 @@ class _CertificationCardState extends State<_CertificationCard>
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              AppColors.themeColor.withOpacity(0.1),
+                              AppColors.themeColor.withValues(alpha: 0.1),
                               Colors.transparent,
                             ],
                           ),
@@ -508,8 +514,8 @@ class _CertificationCardState extends State<_CertificationCard>
                         shape: BoxShape.circle,
                         gradient: LinearGradient(
                           colors: [
-                            AppColors.themeColor.withOpacity(0.3),
-                            AppColors.themeColor.withOpacity(0.1),
+                            AppColors.themeColor.withValues(alpha: 0.3),
+                            AppColors.themeColor.withValues(alpha: 0.1),
                           ],
                         ),
                       ),
@@ -538,15 +544,15 @@ class _CertificationCardState extends State<_CertificationCard>
         shape: BoxShape.circle,
         gradient: RadialGradient(
           colors: [
-            AppColors.themeColor.withOpacity(0.3),
-            AppColors.themeColor.withOpacity(0.1),
+            AppColors.themeColor.withValues(alpha: 0.3),
+            AppColors.themeColor.withValues(alpha: 0.1),
             Colors.transparent,
           ],
         ),
         boxShadow: _isHovered
             ? [
                 BoxShadow(
-                  color: AppColors.themeColor.withOpacity(0.5),
+                  color: AppColors.themeColor.withValues(alpha: 0.5),
                   blurRadius: 30,
                   spreadRadius: 10,
                 ),
@@ -574,11 +580,14 @@ class _CertificationCardState extends State<_CertificationCard>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.themeColor, AppColors.themeColor.withOpacity(0.6)],
+          colors: [
+            AppColors.themeColor,
+            AppColors.themeColor.withValues(alpha: 0.6),
+          ],
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.themeColor.withOpacity(0.3),
+            color: AppColors.themeColor.withValues(alpha: 0.3),
             blurRadius: 20,
             spreadRadius: 5,
           ),
@@ -591,7 +600,7 @@ class _CertificationCardState extends State<_CertificationCard>
             Icon(
               Icons.workspace_premium_rounded,
               size: 80,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
             Positioned(
               bottom: 20,

@@ -57,7 +57,7 @@ class ContactSection extends GetView<HomeController> {
                     'Let\'s discuss your next project',
                     style: TextStyle(
                       fontSize: isMobile ? 14 : 16,
-                      color: AppColors.sectionDescription.withOpacity(0.7),
+                      color: AppColors.sectionDescription.withValues(alpha: 0.7),
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -115,7 +115,7 @@ class ContactSection extends GetView<HomeController> {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
         ),
@@ -128,14 +128,14 @@ class ContactSection extends GetView<HomeController> {
               Icon(
                 Icons.copyright_rounded,
                 size: 16,
-                color: AppColors.sectionDescription.withOpacity(0.5),
+                color: AppColors.sectionDescription.withValues(alpha: 0.5),
               ),
               const SizedBox(width: 8),
               Text(
                 '2025 Dharmik Nakrani. All rights reserved.',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.sectionDescription.withOpacity(0.5),
+                  color: AppColors.sectionDescription.withValues(alpha: 0.5),
                 ),
               ),
             ],
@@ -145,7 +145,7 @@ class ContactSection extends GetView<HomeController> {
             'Built with Flutter & Firebase',
             style: TextStyle(
               fontSize: 12,
-              color: AppColors.themeColor.withOpacity(0.7),
+              color: AppColors.themeColor.withValues(alpha: 0.7),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -160,7 +160,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.themeColor.withOpacity(0.03)
+      ..color = AppColors.themeColor.withValues(alpha: 0.03)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
@@ -201,7 +201,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -232,7 +232,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -323,7 +323,6 @@ class _ContactFormState extends State<_ContactForm> {
           );
         }
       } catch (e) {
-        print('Error submitting form: $e');
         if (mounted) {
           Get.snackbar(
             'Error',
@@ -367,18 +366,18 @@ class _ContactFormState extends State<_ContactForm> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.white.withOpacity(0.05),
-              Colors.white.withOpacity(0.02),
+              Colors.white.withValues(alpha: 0.05),
+              Colors.white.withValues(alpha: 0.02),
             ],
           ),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -484,24 +483,24 @@ class _ContactFormState extends State<_ContactForm> {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
-          color: AppColors.sectionDescription.withOpacity(0.6),
+          color: AppColors.sectionDescription.withValues(alpha: 0.6),
         ),
         prefixIcon: Icon(
           icon,
           color: AppColors.themeColor,
         ),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.03),
+        fillColor: Colors.white.withValues(alpha: 0.03),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
           ),
         ),
         focusedBorder: OutlineInputBorder(
@@ -521,7 +520,7 @@ class _ContactFormState extends State<_ContactForm> {
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
           ),
         ),
       ),
@@ -539,8 +538,8 @@ class _ContactFormState extends State<_ContactForm> {
           borderRadius: BorderRadius.circular(12),
         ),
         elevation: _isSubmitting ? 0 : 5,
-        shadowColor: AppColors.themeColor.withOpacity(0.5),
-        disabledBackgroundColor: AppColors.themeColor.withOpacity(0.5),
+        shadowColor: AppColors.themeColor.withValues(alpha: 0.5),
+        disabledBackgroundColor: AppColors.themeColor.withValues(alpha: 0.5),
       ),
       child: _isSubmitting
           ? Row(
@@ -740,18 +739,18 @@ class _InfoCardState extends State<_InfoCard> {
             gradient: _isHovered
                 ? LinearGradient(colors: widget.gradient)
                 : null,
-            color: _isHovered ? null : Colors.white.withOpacity(0.05),
+            color: _isHovered ? null : Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: _isHovered
                   ? Colors.transparent
-                  : Colors.white.withOpacity(0.1),
+                  : Colors.white.withValues(alpha: 0.1),
               width: 1,
             ),
             boxShadow: _isHovered
                 ? [
                     BoxShadow(
-                      color: widget.gradient[0].withOpacity(0.3),
+                      color: widget.gradient[0].withValues(alpha: 0.3),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
@@ -764,8 +763,8 @@ class _InfoCardState extends State<_InfoCard> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: _isHovered
-                      ? Colors.white.withOpacity(0.2)
-                      : widget.gradient[0].withOpacity(0.1),
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : widget.gradient[0].withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -783,8 +782,8 @@ class _InfoCardState extends State<_InfoCard> {
                       widget.title,
                       style: TextStyle(
                         color: _isHovered
-                            ? Colors.white.withOpacity(0.8)
-                            : Colors.white.withOpacity(0.6),
+                            ? Colors.white.withValues(alpha: 0.8)
+                            : Colors.white.withValues(alpha: 0.6),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -841,16 +840,16 @@ class _SocialButtonState extends State<_SocialButton> {
           duration: const Duration(milliseconds: 300),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: _isHovered ? widget.color : widget.color.withOpacity(0.1),
+            color: _isHovered ? widget.color : widget.color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: widget.color.withOpacity(_isHovered ? 0 : 0.3),
+              color: widget.color.withValues(alpha: _isHovered ? 0 : 0.3),
               width: 1,
             ),
             boxShadow: _isHovered
                 ? [
                     BoxShadow(
-                      color: widget.color.withOpacity(0.3),
+                      color: widget.color.withValues(alpha: 0.3),
                       blurRadius: 15,
                       spreadRadius: 2,
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/data/models/profile_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controllers/home_controller.dart';
 import '../../../../theme/app_colors.dart';
@@ -122,7 +123,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -153,7 +154,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -204,8 +205,8 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
             boxShadow: [
               BoxShadow(
                 color: _isHovered 
-                    ? AppColors.themeColor.withOpacity(0.4)
-                    : AppColors.themeColor.withOpacity(0.2),
+                    ? AppColors.themeColor.withValues(alpha: 0.4)
+                    : AppColors.themeColor.withValues(alpha: 0.2),
                 blurRadius: _isHovered ? 40 : 20,
                 spreadRadius: _isHovered ? 10 : 5,
               ),
@@ -238,7 +239,7 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withOpacity(0.7),
+                          Colors.black.withValues(alpha: 0.7),
                         ],
                       ),
                     ),
@@ -251,7 +252,7 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: AppColors.themeColor.withOpacity(0.3),
+                        color: AppColors.themeColor.withValues(alpha: 0.3),
                         width: 2,
                       ),
                     ),
@@ -272,8 +273,8 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.themeColor.withOpacity(0.2),
-            AppColors.themeColor.withOpacity(0.05),
+            AppColors.themeColor.withValues(alpha: 0.2),
+            AppColors.themeColor.withValues(alpha: 0.05),
           ],
         ),
       ),
@@ -290,7 +291,7 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
 
 // About Content
 class _AboutContent extends StatelessWidget {
-  final profile;
+  final ProfileModel profile;
   
   const _AboutContent({required this.profile});
 
@@ -330,12 +331,11 @@ class _AboutContent extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            profile?.aboutMe ?? 
-                'I\'m a highly passionate and results-driven DevOps engineer with expertise in cloud infrastructure, container orchestration, and CI/CD automation.',
+            profile.aboutMe,
             style: TextStyle(
               fontSize: 16,
               height: 1.8,
-              color: AppColors.sectionDescription.withOpacity(0.9),
+              color: AppColors.sectionDescription.withValues(alpha: 0.9),
               letterSpacing: 0.3,
             ),
             textAlign: TextAlign.justify,
@@ -370,8 +370,8 @@ class _AboutContent extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColors.themeColor.withOpacity(0.2),
-                AppColors.themeColor.withOpacity(0.1),
+                AppColors.themeColor.withValues(alpha: 0.2),
+                AppColors.themeColor.withValues(alpha: 0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(8),
@@ -388,7 +388,7 @@ class _AboutContent extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: 15,
-              color: AppColors.sectionDescription.withOpacity(0.9),
+              color: AppColors.sectionDescription.withValues(alpha: 0.9),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -475,18 +475,18 @@ class _StatCardState extends State<_StatCard> {
           gradient: _isHovered
               ? LinearGradient(colors: widget.gradient)
               : null,
-          color: _isHovered ? null : Colors.white.withOpacity(0.05),
+          color: _isHovered ? null : Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: _isHovered
                 ? Colors.transparent
-                : Colors.white.withOpacity(0.1),
+                : Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
           boxShadow: _isHovered
               ? [
                   BoxShadow(
-                    color: widget.gradient[0].withOpacity(0.3),
+                    color: widget.gradient[0].withValues(alpha: 0.3),
                     blurRadius: 20,
                     spreadRadius: 2,
                   ),
@@ -500,8 +500,8 @@ class _StatCardState extends State<_StatCard> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: _isHovered
-                    ? Colors.white.withOpacity(0.2)
-                    : widget.gradient[0].withOpacity(0.1),
+                    ? Colors.white.withValues(alpha: 0.2)
+                    : widget.gradient[0].withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -528,8 +528,8 @@ class _StatCardState extends State<_StatCard> {
                   style: TextStyle(
                     fontSize: 12,
                     color: _isHovered
-                        ? Colors.white.withOpacity(0.9)
-                        : AppColors.sectionDescription.withOpacity(0.7),
+                        ? Colors.white.withValues(alpha: 0.9)
+                        : AppColors.sectionDescription.withValues(alpha: 0.7),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -544,7 +544,7 @@ class _StatCardState extends State<_StatCard> {
 
 // Contact Cards
 class _ContactCards extends StatelessWidget {
-  final profile;
+  final ProfileModel profile;
   
   const _ContactCards({required this.profile});
 
@@ -570,21 +570,21 @@ class _ContactCards extends StatelessWidget {
           _ContactCard(
             icon: Icons.phone_rounded,
             title: 'Phone',
-            value: profile?.phone ?? '+91 90671 27486',
-            onTap: () => launchUrl(Uri.parse('tel:${profile?.phone}')),
+            value: profile.phone,
+            onTap: () => launchUrl(Uri.parse('tel:${profile.phone}')),
             gradient: const [Color(0xFF667eea), Color(0xFF764ba2)],
           ),
           _ContactCard(
             icon: Icons.email_rounded,
             title: 'Email',
-            value: profile?.email ?? 'dharmik@example.com',
-            onTap: () => launchUrl(Uri.parse('mailto:${profile?.email}')),
+            value: profile.email,
+            onTap: () => launchUrl(Uri.parse('mailto:${profile.email}')),
             gradient: const [Color(0xFFf093fb), Color(0xFFf5576c)],
           ),
           _ContactCard(
             icon: Icons.location_on_rounded,
             title: 'Location',
-            value: profile?.location ?? 'Surat, India',
+            value: profile.location,
             gradient: const [Color(0xFF4facfe), Color(0xFF00f2fe)],
           ),
         ],
@@ -630,18 +630,18 @@ class _ContactCardState extends State<_ContactCard> {
             gradient: _isHovered
                 ? LinearGradient(colors: widget.gradient)
                 : null,
-            color: _isHovered ? null : Colors.white.withOpacity(0.05),
+            color: _isHovered ? null : Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: _isHovered 
                   ? Colors.transparent 
-                  : Colors.white.withOpacity(0.1),
+                  : Colors.white.withValues(alpha: 0.1),
               width: 1,
             ),
             boxShadow: _isHovered
                 ? [
                     BoxShadow(
-                      color: widget.gradient[0].withOpacity(0.3),
+                      color: widget.gradient[0].withValues(alpha: 0.3),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
@@ -655,8 +655,8 @@ class _ContactCardState extends State<_ContactCard> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: _isHovered 
-                      ? Colors.white.withOpacity(0.2)
-                      : widget.gradient[0].withOpacity(0.1),
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : widget.gradient[0].withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -673,8 +673,8 @@ class _ContactCardState extends State<_ContactCard> {
                     widget.title,
                     style: TextStyle(
                       color: _isHovered 
-                          ? Colors.white.withOpacity(0.8)
-                          : Colors.white.withOpacity(0.6),
+                          ? Colors.white.withValues(alpha: 0.8)
+                          : Colors.white.withValues(alpha: 0.6),
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),

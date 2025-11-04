@@ -25,7 +25,7 @@ class MobileDrawer extends GetView<HomeController> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.themeColor.withOpacity(0.1),
+                    AppColors.themeColor.withValues(alpha: 0.1),
                     AppColors.bgDark,
                   ],
                 ),
@@ -41,7 +41,7 @@ class MobileDrawer extends GetView<HomeController> {
                       border: Border.all(color: AppColors.themeColor, width: 3),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.themeColor.withOpacity(0.3),
+                          color: AppColors.themeColor.withValues(alpha: 0.3),
                           blurRadius: 20,
                           spreadRadius: 2,
                         ),
@@ -81,7 +81,7 @@ class MobileDrawer extends GetView<HomeController> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.themeColor.withOpacity(0.2),
+                      color: AppColors.themeColor.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Text(
@@ -120,7 +120,7 @@ class MobileDrawer extends GetView<HomeController> {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -186,7 +186,7 @@ class MobileDrawer extends GetView<HomeController> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.themeColor, AppColors.themeColor.withOpacity(0.7)],
+          colors: [AppColors.themeColor, AppColors.themeColor.withValues(alpha: 0.7)],
         ),
       ),
       child: Center(
@@ -207,7 +207,7 @@ class MobileDrawer extends GetView<HomeController> {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppColors.themeColor.withOpacity(0.1),
+          color: AppColors.themeColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(icon, color: AppColors.themeColor, size: 20),

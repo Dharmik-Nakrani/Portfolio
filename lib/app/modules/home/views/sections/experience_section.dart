@@ -81,9 +81,9 @@ class ExperienceSection extends GetView<HomeController> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    AppColors.themeColor.withOpacity(0.5),
-                    AppColors.themeColor.withOpacity(0.1),
-                    AppColors.themeColor.withOpacity(0.5),
+                    AppColors.themeColor.withValues(alpha: 0.5),
+                    AppColors.themeColor.withValues(alpha: 0.1),
+                    AppColors.themeColor.withValues(alpha: 0.5),
                   ],
                 ),
               ),
@@ -129,7 +129,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -162,7 +162,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),

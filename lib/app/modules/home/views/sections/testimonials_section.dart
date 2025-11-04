@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:portfolio/app/data/models/testimonial_model.dart';
 import '../../controllers/home_controller.dart';
 import '../../../../theme/app_colors.dart';
 
@@ -61,7 +62,7 @@ class TestimonialsSection extends GetView<HomeController> {
             Icon(
               Icons.rate_review_rounded,
               size: 100,
-              color: AppColors.themeColor.withOpacity(0.3),
+              color: AppColors.themeColor.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 20),
             Text(
@@ -69,7 +70,7 @@ class TestimonialsSection extends GetView<HomeController> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: AppColors.sectionDescription.withOpacity(0.6),
+                color: AppColors.sectionDescription.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -77,7 +78,7 @@ class TestimonialsSection extends GetView<HomeController> {
               'Client feedback will appear here',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.sectionDescription.withOpacity(0.4),
+                color: AppColors.sectionDescription.withValues(alpha: 0.4),
               ),
             ),
           ],
@@ -109,7 +110,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -142,7 +143,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -222,17 +223,17 @@ class _TestimonialsCarouselState extends State<_TestimonialsCarousel> {
                       ? LinearGradient(
                           colors: [
                             AppColors.themeColor,
-                            AppColors.themeColor.withOpacity(0.6),
+                            AppColors.themeColor.withValues(alpha: 0.6),
                           ],
                         )
                       : null,
                   color: _currentIndex == entry.key
                       ? null
-                      : Colors.white.withOpacity(0.3),
+                      : Colors.white.withValues(alpha: 0.3),
                   boxShadow: _currentIndex == entry.key
                       ? [
                           BoxShadow(
-                            color: AppColors.themeColor.withOpacity(0.5),
+                            color: AppColors.themeColor.withValues(alpha: 0.5),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -250,7 +251,7 @@ class _TestimonialsCarouselState extends State<_TestimonialsCarousel> {
 
 // Testimonial Card - FIXED VERSION
 class _TestimonialCard extends StatefulWidget {
-  final testimonial;
+  final TestimonialModel testimonial;
   final bool isActive;
   final bool isMobile;
 
@@ -292,15 +293,16 @@ class _TestimonialCardState extends State<_TestimonialCard>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        transform: Matrix4.identity()..scale(widget.isActive ? 1.0 : 0.80),
+        transform: Matrix4.identity()
+          ..scaleByDouble(widget.isActive ? 1.0 : 0.80, 1.0, 1.0, 0.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
                 color: _isHovered
-                    ? AppColors.themeColor.withOpacity(0.3)
-                    : Colors.black.withOpacity(0.3),
+                    ? AppColors.themeColor.withValues(alpha: 0.3)
+                    : Colors.black.withValues(alpha: 0.3),
                 blurRadius: _isHovered ? 30 : 20,
                 spreadRadius: _isHovered ? 5 : 0,
                 offset: const Offset(0, 10),
@@ -320,8 +322,8 @@ class _TestimonialCardState extends State<_TestimonialCard>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.1),
-                        Colors.white.withOpacity(0.05),
+                        Colors.white.withValues(alpha: 0.1),
+                        Colors.white.withValues(alpha: 0.05),
                       ],
                     ),
                   ),
@@ -331,7 +333,7 @@ class _TestimonialCardState extends State<_TestimonialCard>
                 if (_isHovered)
                   AnimatedBuilder(
                     animation: _shimmerController,
-                    builder: (context, child) { 
+                    builder: (context, child) {
                       return Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -342,7 +344,7 @@ class _TestimonialCardState extends State<_TestimonialCard>
                             end: Alignment(3 * _shimmerController.value, 1),
                             colors: [
                               Colors.transparent,
-                              Colors.white.withOpacity(0.1),
+                              Colors.white.withValues(alpha: 0.1),
                               Colors.transparent,
                             ],
                           ),
@@ -365,13 +367,15 @@ class _TestimonialCardState extends State<_TestimonialCard>
                           gradient: LinearGradient(
                             colors: [
                               AppColors.themeColor,
-                              AppColors.themeColor.withOpacity(0.7),
+                              AppColors.themeColor.withValues(alpha: 0.7),
                             ],
                           ),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.themeColor.withOpacity(0.4),
+                              color: AppColors.themeColor.withValues(
+                                alpha: 0.4,
+                              ),
                               blurRadius: 15,
                               spreadRadius: 3,
                             ),
@@ -397,8 +401,8 @@ class _TestimonialCardState extends State<_TestimonialCard>
                             style: TextStyle(
                               fontSize: widget.isMobile ? 14 : 14,
                               height: 1.8,
-                              color: AppColors.sectionDescription.withOpacity(
-                                0.9,
+                              color: AppColors.sectionDescription.withValues(
+                                alpha: 0.9,
                               ),
                               fontStyle: FontStyle.italic,
                               letterSpacing: 0.3,
@@ -423,7 +427,7 @@ class _TestimonialCardState extends State<_TestimonialCard>
                           gradient: LinearGradient(
                             colors: [
                               Colors.transparent,
-                              AppColors.themeColor.withOpacity(0.5),
+                              AppColors.themeColor.withValues(alpha: 0.5),
                               Colors.transparent,
                             ],
                           ),
@@ -444,7 +448,9 @@ class _TestimonialCardState extends State<_TestimonialCard>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.themeColor.withOpacity(0.3),
+                              color: AppColors.themeColor.withValues(
+                                alpha: 0.3,
+                              ),
                               blurRadius: 15,
                               spreadRadius: 3,
                             ),
@@ -519,14 +525,14 @@ class _TestimonialCardState extends State<_TestimonialCard>
                 //     decoration: BoxDecoration(
                 //       gradient: LinearGradient(
                 //         colors: [
-                //           AppColors.themeColor.withOpacity(0.9),
-                //           AppColors.themeColor.withOpacity(0.7),
+                //           AppColors.themeColor.withValues(alpha: 0.9),
+                //           AppColors.themeColor.withValues(alpha: 0.7),
                 //         ],
                 //       ),
                 //       borderRadius: BorderRadius.circular(20),
                 //       boxShadow: [
                 //         BoxShadow(
-                //           color: AppColors.themeColor.withOpacity(0.3),
+                //           color: AppColors.themeColor.withValues(alpha: 0.3),
                 //           blurRadius: 10,
                 //           spreadRadius: 2,
                 //         ),
@@ -568,7 +574,10 @@ class _TestimonialCardState extends State<_TestimonialCard>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.themeColor, AppColors.themeColor.withOpacity(0.7)],
+          colors: [
+            AppColors.themeColor,
+            AppColors.themeColor.withValues(alpha: 0.7),
+          ],
         ),
       ),
       child: Center(

@@ -1,10 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/app/data/models/skill_model.dart';
 import 'package:portfolio/app/theme/app_colors.dart';
 
 class EnhancedSkillCard extends StatefulWidget {
-  final skill;
+  final SkillModel skill;
   final int index;
 
   const EnhancedSkillCard({
@@ -84,21 +85,21 @@ class _EnhancedSkillCardState extends State<EnhancedSkillCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.white.withOpacity(0.05),
-            Colors.white.withOpacity(0.02),
+            Colors.white.withValues(alpha: 0.05),
+            Colors.white.withValues(alpha: 0.02),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: _isHovered
-              ? AppColors.themeColor.withOpacity(0.5)
-              : Colors.white.withOpacity(0.1),
+              ? AppColors.themeColor.withValues(alpha: 0.5)
+              : Colors.white.withValues(alpha: 0.1),
           width: 2,
         ),
         boxShadow: _isHovered
             ? [
                 BoxShadow(
-                  color: AppColors.themeColor.withOpacity(0.2),
+                  color: AppColors.themeColor.withValues(alpha: 0.2),
                   blurRadius: 20,
                   spreadRadius: 5,
                 ),
@@ -113,8 +114,8 @@ class _EnhancedSkillCardState extends State<EnhancedSkillCard>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.themeColor.withOpacity(0.2),
-                    AppColors.themeColor.withOpacity(0.05),
+                    AppColors.themeColor.withValues(alpha: 0.2),
+                    AppColors.themeColor.withValues(alpha: 0.05),
                   ],
                 ),
                 shape: BoxShape.circle,
@@ -155,13 +156,13 @@ class _EnhancedSkillCardState extends State<EnhancedSkillCard>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.themeColor.withOpacity(0.2),
-              AppColors.themeColor.withOpacity(0.05),
+              AppColors.themeColor.withValues(alpha: 0.2),
+              AppColors.themeColor.withValues(alpha: 0.05),
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: AppColors.themeColor.withOpacity(0.5),
+            color: AppColors.themeColor.withValues(alpha: 0.5),
             width: 2,
           ),
         ),
@@ -182,7 +183,7 @@ class _EnhancedSkillCardState extends State<EnhancedSkillCard>
                       child: CircularProgressIndicator(
                         value: _progressAnimation.value,
                         strokeWidth: 8,
-                        backgroundColor: Colors.white.withOpacity(0.1),
+                        backgroundColor: Colors.white.withValues(alpha: 0.1),
                         valueColor: AlwaysStoppedAnimation<Color>(
                           AppColors.themeColor,
                         ),

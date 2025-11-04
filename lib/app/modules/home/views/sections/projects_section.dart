@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/data/models/project_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controllers/home_controller.dart';
 import '../../../../theme/app_colors.dart';
@@ -11,25 +12,16 @@ class ProjectsSection extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isWide = size.width >= 1200;
-    
+
     return Container(
       width: double.infinity,
       constraints: const BoxConstraints(minHeight: 900),
-      padding: EdgeInsets.fromLTRB(
-        isWide ? 120 : 20,
-        80,
-        isWide ? 80 : 20,
-        80,
-      ),
+      padding: EdgeInsets.fromLTRB(isWide ? 120 : 20, 80, isWide ? 80 : 20, 80),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.bgDark,
-            const Color(0xFF0a0a0a),
-            AppColors.bgDark,
-          ],
+          colors: [AppColors.bgDark, const Color(0xFF0a0a0a), AppColors.bgDark],
         ),
       ),
       child: ConstrainedBox(
@@ -39,30 +31,27 @@ class ProjectsSection extends GetView<HomeController> {
           children: [
             _SectionHeader(title: 'FEATURED PROJECTS'),
             const SizedBox(height: 40),
-            
+
             // Category Tabs
             _CategoryTabs(),
-            
+
             const SizedBox(height: 40),
-            
+
             // Projects Grid
             Obx(() {
               final projects = controller.filteredProjects;
-              print(projects
-                  .map((p) => p.title)
-                  .toList()); // Debugging line to check filtered projects
               if (projects.isEmpty) {
                 return _buildEmptyState();
               }
-              
+
               return LayoutBuilder(
                 builder: (context, constraints) {
                   final crossAxisCount = constraints.maxWidth > 900
                       ? 3
                       : constraints.maxWidth > 600
-                          ? 2
-                          : 1;
-                  
+                      ? 2
+                      : 1;
+
                   return GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -81,10 +70,7 @@ class ProjectsSection extends GetView<HomeController> {
                         builder: (context, value, child) {
                           return Transform.scale(
                             scale: 0.8 + (0.2 * value),
-                            child: Opacity(
-                              opacity: value,
-                              child: child,
-                            ),
+                            child: Opacity(opacity: value, child: child),
                           );
                         },
                         child: _ProjectCard(project: projects[index]),
@@ -109,7 +95,7 @@ class ProjectsSection extends GetView<HomeController> {
             Icon(
               Icons.work_outline_rounded,
               size: 100,
-              color: AppColors.themeColor.withOpacity(0.3),
+              color: AppColors.themeColor.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 20),
             Text(
@@ -117,7 +103,7 @@ class ProjectsSection extends GetView<HomeController> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: AppColors.sectionDescription.withOpacity(0.6),
+                color: AppColors.sectionDescription.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -130,7 +116,7 @@ class ProjectsSection extends GetView<HomeController> {
 // Section Header
 class _SectionHeader extends StatelessWidget {
   final String title;
-  
+
   const _SectionHeader({required this.title});
 
   @override
@@ -149,7 +135,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -182,7 +168,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -199,22 +185,26 @@ class _SectionHeader extends StatelessWidget {
 class _CategoryTabs extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: controller.projectCategories.map((category) {
-          final isSelected = controller.selectedProjectCategory.value == category;
-          return Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: _CategoryChip(
-              label: category,
-              isSelected: isSelected,
-              onTap: () => controller.selectedProjectCategory.value = category,
-            ),
-          );
-        }).toList(),
+    return Obx(
+      () => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: controller.projectCategories.map((category) {
+            final isSelected =
+                controller.selectedProjectCategory.value == category;
+            return Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: _CategoryChip(
+                label: category,
+                isSelected: isSelected,
+                onTap: () =>
+                    controller.selectedProjectCategory.value = category,
+              ),
+            );
+          }).toList(),
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -251,26 +241,26 @@ class _CategoryChipState extends State<_CategoryChip> {
                 ? LinearGradient(
                     colors: [
                       AppColors.themeColor,
-                      AppColors.themeColor.withOpacity(0.8),
+                      AppColors.themeColor.withValues(alpha: 0.8),
                     ],
                   )
                 : null,
-            color: widget.isSelected || _isHovered 
-                ? null 
-                : Colors.white.withOpacity(0.05),
+            color: widget.isSelected || _isHovered
+                ? null
+                : Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: widget.isSelected
                   ? AppColors.themeColor
                   : _isHovered
-                      ? AppColors.themeColor.withOpacity(0.5)
-                      : Colors.white.withOpacity(0.1),
+                  ? AppColors.themeColor.withValues(alpha: 0.5)
+                  : Colors.white.withValues(alpha: 0.1),
               width: 2,
             ),
             boxShadow: widget.isSelected || _isHovered
                 ? [
                     BoxShadow(
-                      color: AppColors.themeColor.withOpacity(0.3),
+                      color: AppColors.themeColor.withValues(alpha: 0.3),
                       blurRadius: 15,
                       spreadRadius: 2,
                     ),
@@ -280,9 +270,9 @@ class _CategoryChipState extends State<_CategoryChip> {
           child: Text(
             widget.label,
             style: TextStyle(
-              color: widget.isSelected || _isHovered 
-                  ? Colors.white 
-                  : AppColors.sectionDescription.withOpacity(0.8),
+              color: widget.isSelected || _isHovered
+                  ? Colors.white
+                  : AppColors.sectionDescription.withValues(alpha: 0.8),
               fontSize: 14,
               fontWeight: widget.isSelected ? FontWeight.bold : FontWeight.w600,
               letterSpacing: 1,
@@ -296,7 +286,7 @@ class _CategoryChipState extends State<_CategoryChip> {
 
 // Project Card
 class _ProjectCard extends StatefulWidget {
-  final project;
+  final ProjectModel project;
 
   const _ProjectCard({required this.project});
 
@@ -315,15 +305,15 @@ class _ProjectCardState extends State<_ProjectCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         transform: Matrix4.identity()
-          ..translate(0.0, _isHovered ? -10.0 : 0.0),
+          ..translateByDouble(0.0, _isHovered ? -10.0 : 0.0, 0.0, 0.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
                 color: _isHovered
-                    ? AppColors.themeColor.withOpacity(0.3)
-                    : Colors.black.withOpacity(0.3),
+                    ? AppColors.themeColor.withValues(alpha: 0.3)
+                    : Colors.black.withValues(alpha: 0.3),
                 blurRadius: _isHovered ? 30 : 15,
                 spreadRadius: _isHovered ? 5 : 0,
                 offset: const Offset(0, 10),
@@ -341,13 +331,13 @@ class _ProjectCardState extends State<_ProjectCard> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.05),
-                        Colors.white.withOpacity(0.02),
+                        Colors.white.withValues(alpha: 0.05),
+                        Colors.white.withValues(alpha: 0.02),
                       ],
                     ),
                   ),
                 ),
-                
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -356,7 +346,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                       height: 180,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha: 0.05),
                       ),
                       child: widget.project.imageUrl.isNotEmpty
                           ? Image.network(
@@ -368,7 +358,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                             )
                           : _buildImagePlaceholder(),
                     ),
-                    
+
                     // Content
                     Expanded(
                       child: Padding(
@@ -387,57 +377,64 @@ class _ProjectCardState extends State<_ProjectCard> {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            
+
                             const SizedBox(height: 12),
-                            
+
                             // Description
                             Expanded(
                               child: Text(
                                 widget.project.description,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: AppColors.sectionDescription.withOpacity(0.7),
+                                  color: AppColors.sectionDescription
+                                      .withValues(alpha: 0.7),
                                   height: 1.6,
                                 ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            
+
                             const SizedBox(height: 16),
-                            
+
                             // Tech Stack
                             Wrap(
                               spacing: 8,
                               runSpacing: 8,
-                              children: widget.project.techStack.take(3).map<Widget>((tech) {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.themeColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: AppColors.themeColor.withOpacity(0.3),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    tech,
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.themeColor,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
+                              children: widget.project.techStack
+                                  .take(3)
+                                  .map<Widget>((tech) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.themeColor.withValues(
+                                          alpha: 0.1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: AppColors.themeColor
+                                              .withValues(alpha: 0.3),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        tech,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.themeColor,
+                                        ),
+                                      ),
+                                    );
+                                  })
+                                  .toList(),
                             ),
-                            
+
                             const SizedBox(height: 16),
-                            
+
                             // Action Buttons
                             Row(
                               children: [
@@ -446,17 +443,22 @@ class _ProjectCardState extends State<_ProjectCard> {
                                     child: _ActionButton(
                                       icon: Icons.launch_rounded,
                                       label: 'Live Demo',
-                                      onTap: () => launchUrl(Uri.parse(widget.project.liveUrl!)),
+                                      onTap: () => launchUrl(
+                                        Uri.parse(widget.project.liveUrl!),
+                                      ),
                                     ),
                                   ),
-                                if (widget.project.liveUrl != null && widget.project.githubUrl != null)
+                                if (widget.project.liveUrl != null &&
+                                    widget.project.githubUrl != null)
                                   const SizedBox(width: 12),
                                 if (widget.project.githubUrl != null)
                                   Expanded(
                                     child: _ActionButton(
                                       icon: Icons.code_rounded,
                                       label: 'GitHub',
-                                      onTap: () => launchUrl(Uri.parse(widget.project.githubUrl!)),
+                                      onTap: () => launchUrl(
+                                        Uri.parse(widget.project.githubUrl!),
+                                      ),
                                     ),
                                   ),
                               ],
@@ -467,25 +469,28 @@ class _ProjectCardState extends State<_ProjectCard> {
                     ),
                   ],
                 ),
-                
+
                 // Featured Badge
                 if (widget.project.isFeatured)
                   Positioned(
                     top: 12,
                     right: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
                             AppColors.themeColor,
-                            AppColors.themeColor.withOpacity(0.8),
+                            AppColors.themeColor.withValues(alpha: 0.8),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.themeColor.withOpacity(0.5),
+                            color: AppColors.themeColor.withValues(alpha: 0.5),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -494,7 +499,11 @@ class _ProjectCardState extends State<_ProjectCard> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: const [
-                          Icon(Icons.star_rounded, color: Colors.white, size: 14),
+                          Icon(
+                            Icons.star_rounded,
+                            color: Colors.white,
+                            size: 14,
+                          ),
                           SizedBox(width: 4),
                           Text(
                             'FEATURED',
@@ -523,17 +532,13 @@ class _ProjectCardState extends State<_ProjectCard> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.themeColor.withOpacity(0.3),
-            AppColors.themeColor.withOpacity(0.1),
+            AppColors.themeColor.withValues(alpha: 0.3),
+            AppColors.themeColor.withValues(alpha: 0.1),
           ],
         ),
       ),
       child: const Center(
-        child: Icon(
-          Icons.code_rounded,
-          size: 60,
-          color: AppColors.themeColor,
-        ),
+        child: Icon(Icons.code_rounded, size: 60, color: AppColors.themeColor),
       ),
     );
   }
@@ -568,12 +573,14 @@ class _ActionButtonState extends State<_ActionButton> {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: _isHovered 
-                ? AppColors.themeColor 
-                : AppColors.themeColor.withOpacity(0.1),
+            color: _isHovered
+                ? AppColors.themeColor
+                : AppColors.themeColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: AppColors.themeColor.withOpacity(_isHovered ? 0 : 0.3),
+              color: AppColors.themeColor.withValues(
+                alpha: _isHovered ? 0 : 0.3,
+              ),
               width: 1,
             ),
           ),

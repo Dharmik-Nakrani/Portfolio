@@ -35,7 +35,6 @@ class SafeNetworkImage extends StatelessWidget {
       fit: fit,
       placeholder: (context, url) => placeholder ?? _buildPlaceholder(),
       errorWidget: (context, url, error) {
-        print('❌ Image load error for $url: $error');
         return errorWidget ?? _buildErrorWidget();
       },
     );
@@ -54,7 +53,7 @@ class SafeNetworkImage extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: AppColors.themeColor.withOpacity(0.1),
+      color: AppColors.themeColor.withValues(alpha: 0.1),
       child: const Center(
         child: CircularProgressIndicator(
           color: AppColors.themeColor,
@@ -73,8 +72,8 @@ class SafeNetworkImage extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.themeColor.withOpacity(0.2),
-            AppColors.themeColor.withOpacity(0.05),
+            AppColors.themeColor.withValues(alpha: 0.2),
+            AppColors.themeColor.withValues(alpha: 0.05),
           ],
         ),
       ),

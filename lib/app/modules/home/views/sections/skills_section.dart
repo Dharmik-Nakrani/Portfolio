@@ -69,7 +69,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.themeColor.withOpacity(0.03)
+      ..color = AppColors.themeColor.withValues(alpha: 0.03)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
@@ -112,7 +112,7 @@ class _SectionHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -143,7 +143,7 @@ class _SectionHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     AppColors.themeColor,
-                    AppColors.themeColor.withOpacity(0.3),
+                    AppColors.themeColor.withValues(alpha: 0.3),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(2),
@@ -232,26 +232,26 @@ class _CategoryTabState extends State<_CategoryTab> {
                 ? LinearGradient(
                     colors: [
                       AppColors.themeColor,
-                      AppColors.themeColor.withOpacity(0.8),
+                      AppColors.themeColor.withValues(alpha: 0.8),
                     ],
                   )
                 : null,
             color: widget.isSelected || _isHovered
                 ? null
-                : Colors.white.withOpacity(0.05),
+                : Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: widget.isSelected
                   ? AppColors.themeColor
                   : _isHovered
-                  ? AppColors.themeColor.withOpacity(0.5)
-                  : Colors.white.withOpacity(0.1),
+                  ? AppColors.themeColor.withValues(alpha: 0.5)
+                  : Colors.white.withValues(alpha: 0.1),
               width: 2,
             ),
             boxShadow: widget.isSelected || _isHovered
                 ? [
                     BoxShadow(
-                      color: AppColors.themeColor.withOpacity(0.3),
+                      color: AppColors.themeColor.withValues(alpha: 0.3),
                       blurRadius: 15,
                       spreadRadius: 2,
                     ),
@@ -265,7 +265,7 @@ class _CategoryTabState extends State<_CategoryTab> {
                 _getCategoryIcon(widget.label),
                 color: widget.isSelected || _isHovered
                     ? Colors.white
-                    : AppColors.sectionDescription.withOpacity(0.7),
+                    : AppColors.sectionDescription.withValues(alpha: 0.7),
                 size: 18,
               ),
               const SizedBox(width: 8),
@@ -274,7 +274,7 @@ class _CategoryTabState extends State<_CategoryTab> {
                 style: TextStyle(
                   color: widget.isSelected || _isHovered
                       ? Colors.white
-                      : AppColors.sectionDescription.withOpacity(0.8),
+                      : AppColors.sectionDescription.withValues(alpha: 0.8),
                   fontSize: 14,
                   fontWeight: widget.isSelected
                       ? FontWeight.bold
@@ -369,14 +369,14 @@ class _SkillsGrid extends GetView<HomeController> {
             Icon(
               Icons.search_off_rounded,
               size: 80,
-              color: AppColors.themeColor.withOpacity(0.3),
+              color: AppColors.themeColor.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 20),
             Text(
               'No skills in this category yet',
               style: TextStyle(
                 fontSize: 18,
-                color: AppColors.sectionDescription.withOpacity(0.6),
+                color: AppColors.sectionDescription.withValues(alpha: 0.6),
               ),
             ),
           ],

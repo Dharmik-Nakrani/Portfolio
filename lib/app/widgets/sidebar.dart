@@ -19,7 +19,7 @@ class Sidebar extends GetView<HomeController> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(2, 0),
           ),
@@ -43,7 +43,7 @@ class Sidebar extends GetView<HomeController> {
                 gradient: LinearGradient(
                   colors: [
                     Colors.transparent,
-                    AppColors.themeColor.withOpacity(0.5),
+                    AppColors.themeColor.withValues(alpha: 0.5),
                     Colors.transparent,
                   ],
                 ),
@@ -120,7 +120,7 @@ class Sidebar extends GetView<HomeController> {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.themeColor.withOpacity(0.3),
+                  color: AppColors.themeColor.withValues(alpha: 0.3),
                   blurRadius: 30,
                   spreadRadius: 5,
                 ),
@@ -136,7 +136,7 @@ class Sidebar extends GetView<HomeController> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.themeColor.withOpacity(0.1),
+                    AppColors.themeColor.withValues(alpha: 0.1),
                     Colors.transparent,
                   ],
                 ),
@@ -177,10 +177,10 @@ class Sidebar extends GetView<HomeController> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.themeColor.withOpacity(0.1),
+              color: AppColors.themeColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: AppColors.themeColor.withOpacity(0.3),
+                color: AppColors.themeColor.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -205,7 +205,7 @@ class Sidebar extends GetView<HomeController> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.themeColor, AppColors.themeColor.withOpacity(0.7)],
+          colors: [AppColors.themeColor, AppColors.themeColor.withValues(alpha: 0.7)],
         ),
       ),
       child: Center(
@@ -240,7 +240,7 @@ class Sidebar extends GetView<HomeController> {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.1), width: 1),
         ),
       ),
       child: Column(
@@ -316,7 +316,7 @@ class Sidebar extends GetView<HomeController> {
           Text(
             '© 2025 Dharmik Nakrani',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.white.withValues(alpha: 0.4),
               fontSize: 10,
               letterSpacing: 0.5,
             ),
@@ -338,9 +338,9 @@ class Sidebar extends GetView<HomeController> {
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: color.withOpacity(0.3), width: 1),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
         ),
         child: Icon(icon, color: color, size: 20),
       ),
@@ -412,8 +412,8 @@ class _NavItemState extends State<_NavItem>
               gradient: widget.isActive || _isHovered
                   ? LinearGradient(
                       colors: [
-                        AppColors.themeColor.withOpacity(0.2),
-                        AppColors.themeColor.withOpacity(0.05),
+                        AppColors.themeColor.withValues(alpha: 0.2),
+                        AppColors.themeColor.withValues(alpha: 0.05),
                       ],
                     )
                   : null,
@@ -422,7 +422,7 @@ class _NavItemState extends State<_NavItem>
                 color: widget.isActive
                     ? AppColors.themeColor
                     : _isHovered
-                    ? AppColors.themeColor.withOpacity(0.5)
+                    ? AppColors.themeColor.withValues(alpha: 0.5)
                     : Colors.transparent,
                 width: 1,
               ),
@@ -434,15 +434,15 @@ class _NavItemState extends State<_NavItem>
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: widget.isActive || _isHovered
-                        ? AppColors.themeColor.withOpacity(0.2)
-                        : Colors.white.withOpacity(0.05),
+                        ? AppColors.themeColor.withValues(alpha: 0.2)
+                        : Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
                     widget.icon,
                     color: widget.isActive || _isHovered
                         ? AppColors.themeColor
-                        : AppColors.sectionDescription.withOpacity(0.6),
+                        : AppColors.sectionDescription.withValues(alpha: 0.6),
                     size: 20,
                   ),
                 ),
@@ -456,7 +456,7 @@ class _NavItemState extends State<_NavItem>
                     style: TextStyle(
                       color: widget.isActive || _isHovered
                           ? AppColors.themeColor
-                          : AppColors.sectionDescription.withOpacity(0.8),
+                          : AppColors.sectionDescription.withValues(alpha: 0.8),
                       fontSize: 13,
                       fontWeight: widget.isActive || _isHovered
                           ? FontWeight.w700
@@ -476,7 +476,7 @@ class _NavItemState extends State<_NavItem>
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.themeColor.withOpacity(0.5),
+                          color: AppColors.themeColor.withValues(alpha: 0.5),
                           blurRadius: 8,
                           spreadRadius: 2,
                         ),

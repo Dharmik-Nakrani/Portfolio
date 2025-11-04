@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/app/data/models/experience_model.dart';
 import '../theme/app_colors.dart';
 
 // Timeline Card with animation
 class TimelineCard extends StatefulWidget {
-  final experience;
+  final ExperienceModel experience;
   final int index;
   final bool isLeft;
 
   const TimelineCard({
+    super.key,
     required this.experience,
     required this.index,
     required this.isLeft,
@@ -84,12 +86,12 @@ class TimelineCardState extends State<TimelineCard> {
             gradient: LinearGradient(
               colors: [
                 AppColors.themeColor,
-                AppColors.themeColor.withOpacity(0.7),
+                AppColors.themeColor.withValues(alpha: 0.7),
               ],
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.themeColor.withOpacity(0.5),
+                color: AppColors.themeColor.withValues(alpha: 0.5),
                 blurRadius: 15,
                 spreadRadius: 3,
               ),
@@ -127,30 +129,30 @@ class TimelineCardState extends State<TimelineCard> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppColors.themeColor.withOpacity(0.1),
-                      Colors.white.withOpacity(0.05),
+                      AppColors.themeColor.withValues(alpha: 0.1),
+                      Colors.white.withValues(alpha: 0.05),
                     ],
                   )
                 : null,
-            color: _isHovered ? null : Colors.white.withOpacity(0.03),
+            color: _isHovered ? null : Colors.white.withValues(alpha: 0.03),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: _isHovered
-                  ? AppColors.themeColor.withOpacity(0.5)
-                  : Colors.white.withOpacity(0.1),
+                  ? AppColors.themeColor.withValues(alpha: 0.5)
+                  : Colors.white.withValues(alpha: 0.1),
               width: 2,
             ),
             boxShadow: _isHovered
                 ? [
                     BoxShadow(
-                      color: AppColors.themeColor.withOpacity(0.2),
+                      color: AppColors.themeColor.withValues(alpha: 0.2),
                       blurRadius: 20,
                       spreadRadius: 5,
                     ),
                   ]
                 : [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha: 0.3),
                       blurRadius: 10,
                       offset: const Offset(0, 5),
                     ),
@@ -181,7 +183,7 @@ class TimelineCardState extends State<TimelineCard> {
                               (isEducation
                                       ? const Color(0xFF667eea)
                                       : const Color(0xFF11998e))
-                                  .withOpacity(0.3),
+                                  .withValues(alpha: 0.3),
                           blurRadius: 10,
                           spreadRadius: 2,
                         ),
@@ -233,13 +235,13 @@ class TimelineCardState extends State<TimelineCard> {
                         gradient: LinearGradient(
                           colors: [
                             AppColors.themeColor,
-                            AppColors.themeColor.withOpacity(0.7),
+                            AppColors.themeColor.withValues(alpha: 0.7),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.themeColor.withOpacity(0.3),
+                            color: AppColors.themeColor.withValues(alpha: 0.3),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -266,7 +268,7 @@ class TimelineCardState extends State<TimelineCard> {
                   Icon(
                     Icons.business_rounded,
                     size: 16,
-                    color: AppColors.sectionDescription.withOpacity(0.6),
+                    color: AppColors.sectionDescription.withValues(alpha: 0.6),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -274,7 +276,9 @@ class TimelineCardState extends State<TimelineCard> {
                       '${widget.experience.organization}, ${widget.experience.location}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.sectionDescription.withOpacity(0.8),
+                        color: AppColors.sectionDescription.withValues(
+                          alpha: 0.8,
+                        ),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -291,7 +295,7 @@ class TimelineCardState extends State<TimelineCard> {
                   gradient: LinearGradient(
                     colors: [
                       Colors.transparent,
-                      Colors.white.withOpacity(0.2),
+                      Colors.white.withValues(alpha: 0.2),
                       Colors.transparent,
                     ],
                   ),
@@ -317,7 +321,7 @@ class TimelineCardState extends State<TimelineCard> {
                               gradient: LinearGradient(
                                 colors: [
                                   AppColors.themeColor,
-                                  AppColors.themeColor.withOpacity(0.5),
+                                  AppColors.themeColor.withValues(alpha: 0.5),
                                 ],
                               ),
                               shape: BoxShape.circle,
@@ -330,8 +334,8 @@ class TimelineCardState extends State<TimelineCard> {
                               style: TextStyle(
                                 fontSize: 14,
                                 height: 1.6,
-                                color: AppColors.sectionDescription.withOpacity(
-                                  0.9,
+                                color: AppColors.sectionDescription.withValues(
+                                  alpha: 0.9,
                                 ),
                               ),
                             ),

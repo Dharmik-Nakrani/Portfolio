@@ -16,7 +16,7 @@ class FirebaseService {
   static CollectionReference get testimonials =>
       _firestore.collection('testimonials');
   static CollectionReference get projects => _firestore.collection('projects');
-  static CollectionReference get contact_messages =>
+  static CollectionReference get contactMessages =>
       _firestore.collection('contact_messages');
 
   // Storage
@@ -49,10 +49,9 @@ class FirebaseService {
 
   static Future<bool> submitContactMessage(ContactMessageModel message) async {
     try {
-      await contact_messages.add(message.toFirestore());
+      await contactMessages.add(message.toFirestore());
       return true;
     } catch (e) {
-      print('Error submitting contact message: $e');
       return false;
     }
   }

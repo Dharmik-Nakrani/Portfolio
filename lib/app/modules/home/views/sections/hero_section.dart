@@ -17,7 +17,7 @@ class HeroSection extends GetView<HomeController> {
     return Obx(() {
       final profile = controller.profile.value;
 
-      return Container(
+      return SizedBox(
         height: size.height,
         width: double.infinity,
         child: Stack(
@@ -44,9 +44,9 @@ class HeroSection extends GetView<HomeController> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.7),
-                      Colors.black.withOpacity(0.5),
-                      Colors.black.withOpacity(0.8),
+                      Colors.black.withValues(alpha: 0.7),
+                      Colors.black.withValues(alpha: 0.5),
+                      Colors.black.withValues(alpha: 0.8),
                     ],
                     stops: const [0.0, 0.5, 1.0],
                   ),
@@ -62,7 +62,7 @@ class HeroSection extends GetView<HomeController> {
                     center: Alignment.center,
                     radius: 1.0,
                     colors: [
-                      AppColors.themeColor.withOpacity(0.1),
+                      AppColors.themeColor.withValues(alpha: 0.1),
                       Colors.transparent,
                     ],
                   ),
@@ -157,15 +157,15 @@ class HeroSection extends GetView<HomeController> {
                             vertical: 16,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: AppColors.themeColor.withOpacity(0.3),
+                              color: AppColors.themeColor.withValues(alpha: 0.3),
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.themeColor.withOpacity(0.2),
+                                color: AppColors.themeColor.withValues(alpha: 0.2),
                                 blurRadius: 20,
                                 spreadRadius: 5,
                               ),
@@ -208,7 +208,7 @@ class HeroSection extends GetView<HomeController> {
                             'Transforming infrastructure with code, containers, and continuous delivery',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: AppColors.sectionDescription.withOpacity(
+                              color: AppColors.sectionDescription.withValues(alpha: 
                                 0.8,
                               ),
                               fontSize: isMobile ? 14 : 16,
@@ -333,7 +333,7 @@ class _ParticlesPainter extends CustomPainter {
           size.height / 2;
       final radius = 2.0 + math.sin(animation * math.pi + i) * 1.5;
 
-      paint.color = AppColors.themeColor.withOpacity(
+      paint.color = AppColors.themeColor.withValues(alpha: 
         0.1 + math.sin(animation * math.pi + i) * 0.1,
       );
       canvas.drawCircle(Offset(x, y), radius, paint);
@@ -349,7 +349,7 @@ class _ParticlesPainter extends CustomPainter {
       final x2 = (size.width / 10 * (i + 1) + animation * 50) % size.width;
       final y2 = size.height * 0.7;
 
-      paint.color = AppColors.themeColor.withOpacity(0.05);
+      paint.color = AppColors.themeColor.withValues(alpha: 0.05);
       canvas.drawLine(Offset(x1, y1), Offset(x2, y2), paint);
     }
   }
@@ -403,7 +403,7 @@ class _PrimaryButtonState extends State<_PrimaryButton> {
               borderRadius: BorderRadius.circular(50),
             ),
             elevation: _isHovered ? 12 : 6,
-            shadowColor: AppColors.themeColor.withOpacity(0.5),
+            shadowColor: AppColors.themeColor.withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -452,7 +452,7 @@ class _SecondaryButtonState extends State<_SecondaryButton> {
             foregroundColor: _isHovered ? Colors.white : AppColors.themeColor,
             side: BorderSide(color: AppColors.themeColor, width: 2),
             backgroundColor: _isHovered
-                ? AppColors.themeColor.withOpacity(0.1)
+                ? AppColors.themeColor.withValues(alpha: 0.1)
                 : Colors.transparent,
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
             shape: RoundedRectangleBorder(
@@ -536,7 +536,7 @@ class _StatItemState extends State<_StatItem> with SingleTickerProviderStateMixi
         Text(
           widget.label,
           style: TextStyle(
-            color: AppColors.sectionDescription.withOpacity(0.7),
+            color: AppColors.sectionDescription.withValues(alpha: 0.7),
             fontSize: 12,
             letterSpacing: 1,
           ),
@@ -591,7 +591,7 @@ class _ScrollIndicatorState extends State<_ScrollIndicator>
           Text(
             'SCROLL DOWN',
             style: TextStyle(
-              color: AppColors.sectionDescription.withOpacity(0.6),
+              color: AppColors.sectionDescription.withValues(alpha: 0.6),
               fontSize: 10,
               letterSpacing: 2,
               fontWeight: FontWeight.w600,
