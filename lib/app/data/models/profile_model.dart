@@ -8,6 +8,10 @@ class ProfileModel {
   final List<String> typedItems;
   final String aboutMe;
   final Map<String, String> socialLinks;
+  
+  final int? yearsExperience;
+  final int? totalProjects;
+  final int? totalCertifications;
 
   ProfileModel({
     required this.name,
@@ -19,6 +23,9 @@ class ProfileModel {
     required this.typedItems,
     required this.aboutMe,
     required this.socialLinks,
+    this.yearsExperience,
+    this.totalProjects,
+    this.totalCertifications,
   });
 
   factory ProfileModel.fromFirestore(Map<String, dynamic> data) {
@@ -32,20 +39,9 @@ class ProfileModel {
       typedItems: List<String>.from(data['typedItems'] ?? []),
       aboutMe: data['aboutMe'] ?? '',
       socialLinks: Map<String, String>.from(data['socialLinks'] ?? {}),
+      yearsExperience: data['yearsExperience'],
+      totalProjects: data['totalProjects'],
+      totalCertifications: data['totalCertifications'],
     );
-  }
-
-  Map<String, dynamic> toFirestore() {
-    return {
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'location': location,
-      'profileImage': profileImage,
-      'heroImage': heroImage,
-      'typedItems': typedItems,
-      'aboutMe': aboutMe,
-      'socialLinks': socialLinks,
-    };
   }
 }

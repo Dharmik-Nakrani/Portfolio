@@ -1,35 +1,45 @@
-import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import '../data/models/skill_model.dart';
-import '../theme/app_colors.dart';
+import 'dart:math' as math;
 
-class SkillCard extends StatefulWidget {
-  final SkillModel skill;
-  const SkillCard({super.key, required this.skill});
+import 'package:flutter/material.dart';
+import 'package:portfolio/app/theme/app_colors.dart';
+
+class EnhancedSkillCard extends StatefulWidget {
+  final skill;
+  final int index;
+
+  const EnhancedSkillCard({
+    super.key,
+    required this.skill,
+    required this.index,
+  });
 
   @override
-  State<SkillCard> createState() => _SkillCardState();
+  State<EnhancedSkillCard> createState() => _EnhancedSkillCardState();
 }
 
-class _SkillCardState extends State<SkillCard> with SingleTickerProviderStateMixin {
+class _EnhancedSkillCardState extends State<EnhancedSkillCard>
+    with SingleTickerProviderStateMixin {
   bool _isHovered = false;
   late AnimationController _animController;
   late Animation<double> _progressAnimation;
+  late Animation<double> _rotationAnimation;
 
   @override
   void initState() {
     super.initState();
     _animController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
+
     _progressAnimation = Tween<double>(
       begin: 0,
       end: widget.skill.percentage / 100,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOut,
-    ));
+    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+
+    _rotationAnimation = Tween<double>(begin: 0, end: math.pi).animate(
+      CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -49,94 +59,217 @@ class _SkillCardState extends State<SkillCard> with SingleTickerProviderStateMix
         setState(() => _isHovered = false);
         _animController.reverse();
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: _isHovered 
-                ? AppColors.themeColor.withOpacity(0.5)
-                : Colors.white.withOpacity(0.1),
-            width: 2,
-          ),
+      child: AnimatedBuilder(
+        animation: _animController,
+        builder: (context, child) {
+          final angle = _rotationAnimation.value;
+          final transform = Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..rotateY(angle);
+
+          return Transform(
+            transform: transform,
+            alignment: Alignment.center,
+            child: angle > math.pi / 2 ? _buildBackCard() : _buildFrontCard(),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildFrontCard() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white.withOpacity(0.05),
+            Colors.white.withOpacity(0.02),
+          ],
         ),
-        child: Stack(
-          children: [
-            // Skill Logo
-            Center(
-              child: AnimatedOpacity(
-                opacity: _isHovered ? 0.2 : 1.0,
-                duration: const Duration(milliseconds: 300),
-                child: CachedNetworkImage(
-                  imageUrl: widget.skill.imageUrl,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.contain,
-                  placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: _isHovered
+              ? AppColors.themeColor.withOpacity(0.5)
+              : Colors.white.withOpacity(0.1),
+          width: 2,
+        ),
+        boxShadow: _isHovered
+            ? [
+                BoxShadow(
+                  color: AppColors.themeColor.withOpacity(0.2),
+                  blurRadius: 20,
+                  spreadRadius: 5,
                 ),
-              ),
-            ),
-            
-            // Circular Progress on Hover
-            if (_isHovered)
-              Center(
-                child: AnimatedBuilder(
-                  animation: _progressAnimation,
-                  builder: (context, child) {
-                    return SizedBox(
-                      width: 140,
-                      height: 140,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CircularProgressIndicator(
-                            value: _progressAnimation.value,
-                            strokeWidth: 12,
-                            backgroundColor: Colors.white.withOpacity(0.2),
-                            color: AppColors.themeColor,
+              ]
+            : [],
+      ),
+      child: Stack(
+        children: [
+          // Skill Icon/Logo
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.themeColor.withOpacity(0.2),
+                        AppColors.themeColor.withOpacity(0.05),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: widget.skill.imageUrl.isNotEmpty
+                      ? ClipOval(
+                          child: Image.network(
+                            widget.skill.imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return _buildIconFallback();
+                            },
                           ),
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '${widget.skill.percentage}%',
-                            style: const TextStyle(
-                              color: AppColors.themeColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                        )
+                      : _buildIconFallback(),
                 ),
-              ),
-            
-            // Skill Name
-            Positioned(
-              bottom: 12,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
+                const SizedBox(height: 16),
+                Text(
                   widget.skill.name,
                   style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                     color: AppColors.sectionDescription,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
+              ],
+            ),
+          ),
+
+          // Category Badge
+          Positioned(
+            top: 12,
+            right: 12,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppColors.themeColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.themeColor.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                widget.skill.category,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.themeColor,
+                  letterSpacing: 0.5,
+                ),
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBackCard() {
+    return Transform(
+      transform: Matrix4.rotationY(math.pi),
+      alignment: Alignment.center,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.themeColor.withOpacity(0.2),
+              AppColors.themeColor.withOpacity(0.05),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.themeColor.withOpacity(0.5),
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Circular Progress
+              SizedBox(
+                width: 120,
+                height: 120,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CircularProgressIndicator(
+                        value: _progressAnimation.value,
+                        strokeWidth: 8,
+                        backgroundColor: Colors.white.withOpacity(0.1),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          AppColors.themeColor,
+                        ),
+                      ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${(widget.skill.percentage).toInt()}%',
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.themeColor,
+                          ),
+                        ),
+                        const Text(
+                          'Proficiency',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.sectionDescription,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                widget.skill.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.sectionDescription,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconFallback() {
+    return Center(
+      child: Text(
+        widget.skill.name[0].toUpperCase(),
+        style: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: AppColors.themeColor,
         ),
       ),
     );

@@ -1,87 +1,184 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/widgets/timeline_item.dart';
 import '../../controllers/home_controller.dart';
 import '../../../../theme/app_colors.dart';
-import '../../../../widgets/timeline_item.dart';
 
 class ExperienceSection extends GetView<HomeController> {
   const ExperienceSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width >= 1200;
-    
+    final size = MediaQuery.of(context).size;
+    final isWide = size.width >= 1200;
+    final isMobile = size.width < 900;
+
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isWide ? 300 : 20,
-        80,
-        isWide ? 80 : 20,
-        80,
-      ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _SectionTitle(title: 'EDUCATION | EXPERIENCE'),
-            const SizedBox(height: 32),
-            
-            Obx(() {
-              final education = controller.educationItems;
-              final work = controller.workExperience;
-              
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Education
-                  if (education.isNotEmpty) ...[
-                    Text(
-                      'Education',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 16),
-                    ...education.map((exp) => TimelineItem(experience: exp)),
-                    const SizedBox(height: 32),
-                  ],
-                  
-                  // Work Experience
-                  if (work.isNotEmpty) ...[
-                    Text(
-                      'Work Experience',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 16),
-                    ...work.map((exp) => TimelineItem(experience: exp)),
-                  ],
-                ],
-              );
-            }),
-          ],
+      constraints: const BoxConstraints(minHeight: 900),
+      padding: EdgeInsets.fromLTRB(isWide ? 320 : 20, 80, isWide ? 80 : 20, 80),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppColors.bgDark, const Color(0xFF0a0a0a), AppColors.bgDark],
         ),
       ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1200),
+        child: Obx(() {
+          final education = controller.educationItems;
+          final work = controller.workExperience;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _SectionHeader(title: 'EDUCATION & EXPERIENCE'),
+              const SizedBox(height: 20),
+              Text(
+                'My academic journey and professional career',
+                style: TextStyle(
+                  fontSize: isMobile ? 14 : 16,
+                  color: AppColors.sectionDescription.withOpacity(0.7),
+                  letterSpacing: 0.5,
+                ),
+              ),
+              const SizedBox(height: 60),
+
+              // Timeline View
+              if (isMobile)
+                _buildMobileTimeline(education, work)
+              else
+                _buildDesktopTimeline(education, work, isWide),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildMobileTimeline(List education, List work) {
+    final allItems = [...education, ...work]
+      ..sort((a, b) => b.startDate.compareTo(a.startDate));
+
+    return Column(
+      children: allItems.asMap().entries.map((entry) {
+        return TimelineCard(
+          experience: entry.value,
+          index: entry.key,
+          isLeft: false,
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildDesktopTimeline(List education, List work, bool isWide) {
+    final allItems = [...education, ...work]
+      ..sort((a, b) => b.startDate.compareTo(a.startDate));
+
+    return Stack(
+      children: [
+        // Center Line
+        Positioned(
+          left: isWide ? 0 : 0,
+          right: isWide ? 0 : 0,
+          child: Center(
+            child: Container(
+              width: 3,
+              height: (allItems.length * 280).toDouble(),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.themeColor.withOpacity(0.5),
+                    AppColors.themeColor.withOpacity(0.1),
+                    AppColors.themeColor.withOpacity(0.5),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // Timeline Items
+        Column(
+          children: allItems.asMap().entries.map((entry) {
+            final isLeft = entry.key % 2 == 0;
+            return TimelineCard(
+              experience: entry.value,
+              index: entry.key,
+              isLeft: isLeft,
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
 
-class _SectionTitle extends StatelessWidget {
+// Section Header
+class _SectionHeader extends StatelessWidget {
   final String title;
-  const _SectionTitle({required this.title});
+
+  const _SectionHeader({required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 8),
-        Container(
-          width: 100,
-          height: 3,
-          decoration: BoxDecoration(
-            color: AppColors.themeColor,
-            borderRadius: BorderRadius.circular(2),
-          ),
+        Row(
+          children: [
+            Container(
+              width: 4,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.themeColor,
+                    AppColors.themeColor.withOpacity(0.3),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.sectionDescription,
+                  letterSpacing: 2,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1000),
+          tween: Tween(begin: 0.0, end: 1.0),
+          curve: Curves.easeOut,
+          builder: (context, value, child) {
+            return Container(
+              height: 3,
+              width: 200 * value,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.themeColor,
+                    AppColors.themeColor.withOpacity(0.3),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            );
+          },
         ),
       ],
     );

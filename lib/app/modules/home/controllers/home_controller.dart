@@ -21,9 +21,11 @@ class HomeController extends GetxController {
   
   // Loading states
   final RxBool isLoading = true.obs;
+  final RxBool hasError = false.obs;
+  final RxString errorMessage = ''.obs;
+  
   final RxString selectedSkillCategory = 'DevOps'.obs;
   
-  // Skill categories
   final List<String> skillCategories = [
     'DevOps',
     'Monitoring',
@@ -32,6 +34,36 @@ class HomeController extends GetxController {
     'Programming'
   ];
   
+  // COMPUTED STATS GETTERS
+  int get yearsOfExperience {
+    // If stored in Firebase, use that
+    if (profile.value?.yearsExperience != null) {
+      return profile.value!.yearsExperience!;
+    }
+    
+    return 0;
+  }
+  
+  int get totalProjects {
+    // If stored in Firebase, use that
+    if (profile.value?.totalProjects != null) {
+      return profile.value!.totalProjects!;
+    }
+    
+    // Otherwise return count of work experiences (as proxy)
+    return experiences.where((exp) => !exp.isEducation).length * 15; // Estimate
+  }
+  
+  int get totalCertifications {
+    // If stored in Firebase, use that
+    if (profile.value?.totalCertifications != null) {
+      return profile.value!.totalCertifications!;
+    }
+    
+    // Otherwise return actual count
+    return certifications.length;
+  }
+  
   @override
   void onInit() {
     super.onInit();
@@ -39,55 +71,96 @@ class HomeController extends GetxController {
   }
   
   void _loadData() {
-    // Listen to profile changes
-    FirebaseService.getProfileStream().listen((snapshot) {
-      if (snapshot.exists) {
-        profile.value = ProfileModel.fromFirestore(
-          snapshot.data() as Map<String, dynamic>,
-        );
-      }
-    });
-    
-    // Listen to skills changes
-    FirebaseService.getSkillsStream().listen((snapshot) {
-      skills.value = snapshot.docs
-          .map((doc) => SkillModel.fromFirestore(
-                doc.id,
-                doc.data() as Map<String, dynamic>,
-              ))
-          .toList();
+    try {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (isLoading.value) {
+          isLoading.value = false;
+          hasError.value = true;
+          errorMessage.value = 'Failed to load data. Please check your Firebase connection.';
+        }
+      });
+      
+      FirebaseService.getProfileStream().listen(
+        (snapshot) {
+          if (snapshot.exists) {
+            profile.value = ProfileModel.fromFirestore(
+              snapshot.data() as Map<String, dynamic>,
+            );
+          }
+          if (isLoading.value) {
+            isLoading.value = false;
+          }
+        },
+        onError: (error) {
+          print('Error loading profile: $error');
+          hasError.value = true;
+          errorMessage.value = 'Error loading profile data';
+          isLoading.value = false;
+        },
+      );
+      
+      FirebaseService.getSkillsStream().listen(
+        (snapshot) {
+          skills.value = snapshot.docs
+              .map((doc) => SkillModel.fromFirestore(
+                    doc.id,
+                    doc.data() as Map<String, dynamic>,
+                  ))
+              .toList();
+        },
+        onError: (error) {
+          print('Error loading skills: $error');
+        },
+      );
+      
+      FirebaseService.getExperiencesStream().listen(
+        (snapshot) {
+          experiences.value = snapshot.docs
+              .map((doc) => ExperienceModel.fromFirestore(
+                    doc.id,
+                    doc.data() as Map<String, dynamic>,
+                  ))
+              .toList();
+        },
+        onError: (error) {
+          print('Error loading experiences: $error');
+        },
+      );
+      
+      FirebaseService.getCertificationsStream().listen(
+        (snapshot) {
+          certifications.value = snapshot.docs
+              .map((doc) => CertificationModel.fromFirestore(
+                    doc.id,
+                    doc.data() as Map<String, dynamic>,
+                  ))
+              .toList();
+        },
+        onError: (error) {
+          print('Error loading certifications: $error');
+        },
+      );
+      
+      FirebaseService.getTestimonialsStream().listen(
+        (snapshot) {
+          testimonials.value = snapshot.docs
+              .map((doc) => TestimonialModel.fromFirestore(
+                    doc.id,
+                    doc.data() as Map<String, dynamic>,
+                  ))
+              .toList();
+        },
+        onError: (error) {
+          print('Error loading testimonials: $error');
+        },
+      );
+      
+    } catch (e) {
+      print('Error in _loadData: $e');
+      hasError.value = true;
+      errorMessage.value = 'Failed to initialize Firebase: $e';
       isLoading.value = false;
-    });
-    
-    // Listen to experiences changes
-    FirebaseService.getExperiencesStream().listen((snapshot) {
-      experiences.value = snapshot.docs
-          .map((doc) => ExperienceModel.fromFirestore(
-                doc.id,
-                doc.data() as Map<String, dynamic>,
-              ))
-          .toList();
-    });
-    
-    // Listen to certifications changes
-    FirebaseService.getCertificationsStream().listen((snapshot) {
-      certifications.value = snapshot.docs
-          .map((doc) => CertificationModel.fromFirestore(
-                doc.id,
-                doc.data() as Map<String, dynamic>,
-              ))
-          .toList();
-    });
-    
-    // Listen to testimonials changes
-    FirebaseService.getTestimonialsStream().listen((snapshot) {
-      testimonials.value = snapshot.docs
-          .map((doc) => TestimonialModel.fromFirestore(
-                doc.id,
-                doc.data() as Map<String, dynamic>,
-              ))
-          .toList();
-    });
+    }
   }
   
   List<SkillModel> get filteredSkills {
@@ -114,5 +187,12 @@ class HomeController extends GetxController {
   
   void scrollToTop() {
     scrollToSection(0);
+  }
+  
+  void retryLoading() {
+    isLoading.value = true;
+    hasError.value = false;
+    errorMessage.value = '';
+    _loadData();
   }
 }
