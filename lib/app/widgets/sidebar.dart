@@ -205,7 +205,10 @@ class Sidebar extends GetView<HomeController> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.themeColor, AppColors.themeColor.withValues(alpha: 0.7)],
+          colors: [
+            AppColors.themeColor,
+            AppColors.themeColor.withValues(alpha: 0.7),
+          ],
         ),
       ),
       child: Center(
@@ -254,25 +257,25 @@ class Sidebar extends GetView<HomeController> {
               children: [
                 if (profile!.socialLinks['linkedin'] != null)
                   _buildSocialButton(
-                    icon: Icons.business,
+                    assetPath: 'assets/icons/linkedin.png',
                     url: profile.socialLinks['linkedin']!,
                     color: const Color(0xFF0077B5),
                   ),
                 if (profile.socialLinks['github'] != null)
                   _buildSocialButton(
-                    icon: Icons.code,
+                    assetPath: 'assets/icons/github.png',
                     url: profile.socialLinks['github']!,
                     color: const Color(0xFF333333),
                   ),
                 if (profile.socialLinks['twitter'] != null)
                   _buildSocialButton(
-                    icon: Icons.alternate_email,
+                    assetPath: 'assets/icons/twitter.png',
                     url: profile.socialLinks['twitter']!,
                     color: const Color(0xFF1DA1F2),
                   ),
                 if (profile.socialLinks['whatsapp'] != null)
                   _buildSocialButton(
-                    icon: Icons.chat,
+                    assetPath: 'assets/icons/whatsapp.png',
                     url: profile.socialLinks['whatsapp']!,
                     color: const Color(0xFF25D366),
                   ),
@@ -287,7 +290,11 @@ class Sidebar extends GetView<HomeController> {
             child: ElevatedButton.icon(
               onPressed: () {
                 // Add your CV download logic
-                launchUrl(Uri.parse('https://your-cv-url.pdf'));
+                launchUrl(
+                  Uri.parse(
+                    'https://dharmik-portfolio.s3.us-west-2.amazonaws.com/Dharmik_Nakrani_CV.pdf',
+                  ),
+                );
               },
               icon: const Icon(Icons.download_rounded, size: 18),
               label: const Text(
@@ -327,7 +334,7 @@ class Sidebar extends GetView<HomeController> {
   }
 
   Widget _buildSocialButton({
-    required IconData icon,
+    required String assetPath, // Changed from IconData to String
     required String url,
     required Color color,
   }) {
@@ -342,7 +349,19 @@ class Sidebar extends GetView<HomeController> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
         ),
-        child: Icon(icon, color: color, size: 20),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Image.asset(
+            assetPath,
+            width: 20,
+            height: 20,
+            color: color, // This will tint the image with the color
+            errorBuilder: (context, error, stackTrace) {
+              // Fallback to icon if image not found
+              return Icon(Icons.link, color: color, size: 20);
+            },
+          ),
+        ),
       ),
     );
   }

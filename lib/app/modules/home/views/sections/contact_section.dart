@@ -14,7 +14,7 @@ class ContactSection extends GetView<HomeController> {
     final size = MediaQuery.of(context).size;
     final isWide = size.width >= 1200;
     final isMobile = size.width < 900;
-    
+
     return Container(
       width: double.infinity,
       constraints: const BoxConstraints(minHeight: 900),
@@ -32,12 +32,8 @@ class ContactSection extends GetView<HomeController> {
       child: Stack(
         children: [
           // Animated Grid Background
-          Positioned.fill(
-            child: CustomPaint(
-              painter: _GridPainter(),
-            ),
-          ),
-          
+          Positioned.fill(child: CustomPaint(painter: _GridPainter())),
+
           // Content
           Padding(
             padding: EdgeInsets.fromLTRB(
@@ -57,20 +53,22 @@ class ContactSection extends GetView<HomeController> {
                     'Let\'s discuss your next project',
                     style: TextStyle(
                       fontSize: isMobile ? 14 : 16,
-                      color: AppColors.sectionDescription.withValues(alpha: 0.7),
+                      color: AppColors.sectionDescription.withValues(
+                        alpha: 0.7,
+                      ),
                       letterSpacing: 0.5,
                     ),
                   ),
                   const SizedBox(height: 60),
-                  
+
                   // Main Content
                   if (isMobile)
                     _buildMobileLayout()
                   else
                     _buildDesktopLayout(isWide),
-                  
+
                   const SizedBox(height: 60),
-                  
+
                   // Footer
                   _buildFooter(),
                 ],
@@ -84,11 +82,7 @@ class ContactSection extends GetView<HomeController> {
 
   Widget _buildMobileLayout() {
     return Column(
-      children: [
-        _ContactInfo(),
-        const SizedBox(height: 40),
-        _ContactForm(),
-      ],
+      children: [_ContactInfo(), const SizedBox(height: 40), _ContactForm()],
     );
   }
 
@@ -96,28 +90,19 @@ class ContactSection extends GetView<HomeController> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 2,
-          child: _ContactForm(),
-        ),
+        Expanded(flex: 2, child: _ContactForm()),
         SizedBox(width: isWide ? 60 : 40),
-        Expanded(
-          flex: 1,
-          child: _ContactInfo(),
-        ),
+        Expanded(flex: 1, child: _ContactInfo()),
       ],
     );
   }
 
   Widget _buildFooter() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(
-            color: Colors.white.withValues(alpha: 0.1),
-            width: 1,
-          ),
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.1), width: 1),
         ),
       ),
       child: Column(
@@ -165,11 +150,11 @@ class _GridPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     const gridSize = 50.0;
-    
+
     for (double x = 0; x < size.width; x += gridSize) {
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
-    
+
     for (double y = 0; y < size.height; y += gridSize) {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
@@ -182,7 +167,7 @@ class _GridPainter extends CustomPainter {
 // Section Header
 class _SectionHeader extends StatelessWidget {
   final String title;
-  
+
   const _SectionHeader({required this.title});
 
   @override
@@ -271,7 +256,7 @@ class _ContactFormState extends State<_ContactForm> {
   Future<void> _submitForm() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => _isSubmitting = true);
-      
+
       try {
         // Create contact message
         final contactMessage = ContactMessageModel(
@@ -282,10 +267,12 @@ class _ContactFormState extends State<_ContactForm> {
           message: _messageController.text.trim(),
           submittedAt: DateTime.now(),
         );
-        
+
         // Submit to Firebase
-        final success = await FirebaseService.submitContactMessage(contactMessage);
-        
+        final success = await FirebaseService.submitContactMessage(
+          contactMessage,
+        );
+
         if (success && mounted) {
           // Show success message
           Get.snackbar(
@@ -299,13 +286,13 @@ class _ContactFormState extends State<_ContactForm> {
             margin: const EdgeInsets.all(16),
             borderRadius: 12,
           );
-          
+
           // Clear form
           _nameController.clear();
           _emailController.clear();
           _subjectController.clear();
           _messageController.clear();
-          
+
           // Reset form validation
           _formKey.currentState?.reset();
         } else if (mounted) {
@@ -353,10 +340,7 @@ class _ContactFormState extends State<_ContactForm> {
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(-30 * (1 - value), 0),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Container(
@@ -407,16 +391,17 @@ class _ContactFormState extends State<_ContactForm> {
                 ],
               ),
               const SizedBox(height: 24),
-              
+
               _buildTextField(
                 controller: _nameController,
                 label: 'Your Name',
                 icon: Icons.person_outline_rounded,
-                validator: (v) => v?.isEmpty ?? true ? 'Name is required' : null,
+                validator: (v) =>
+                    v?.isEmpty ?? true ? 'Name is required' : null,
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               _buildTextField(
                 controller: _emailController,
                 label: 'Email Address',
@@ -428,18 +413,19 @@ class _ContactFormState extends State<_ContactForm> {
                   return null;
                 },
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               _buildTextField(
                 controller: _subjectController,
                 label: 'Subject',
                 icon: Icons.subject_rounded,
-                validator: (v) => v?.isEmpty ?? true ? 'Subject is required' : null,
+                validator: (v) =>
+                    v?.isEmpty ?? true ? 'Subject is required' : null,
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               _buildTextField(
                 controller: _messageController,
                 label: 'Your Message',
@@ -447,13 +433,14 @@ class _ContactFormState extends State<_ContactForm> {
                 maxLines: 5,
                 validator: (v) {
                   if (v?.isEmpty ?? true) return 'Message is required';
-                  if (v!.length < 10) return 'Message must be at least 10 characters';
+                  if (v!.length < 10)
+                    return 'Message must be at least 10 characters';
                   return null;
                 },
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               _buildSubmitButton(),
             ],
           ),
@@ -476,52 +463,34 @@ class _ContactFormState extends State<_ContactForm> {
       maxLines: maxLines,
       validator: validator,
       enabled: !_isSubmitting, // Disable during submission
-      style: const TextStyle(
-        color: AppColors.sectionDescription,
-        fontSize: 16,
-      ),
+      style: const TextStyle(color: AppColors.sectionDescription, fontSize: 16),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
           color: AppColors.sectionDescription.withValues(alpha: 0.6),
         ),
-        prefixIcon: Icon(
-          icon,
-          color: AppColors.themeColor,
-        ),
+        prefixIcon: Icon(icon, color: AppColors.themeColor),
         filled: true,
         fillColor: Colors.white.withValues(alpha: 0.03),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withValues(alpha: 0.1),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withValues(alpha: 0.1),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: AppColors.themeColor,
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: AppColors.themeColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: Colors.red, width: 2),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withValues(alpha: 0.05),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
         ),
       ),
     );
@@ -534,9 +503,7 @@ class _ContactFormState extends State<_ContactForm> {
         backgroundColor: AppColors.themeColor,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 18),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: _isSubmitting ? 0 : 5,
         shadowColor: AppColors.themeColor.withValues(alpha: 0.5),
         disabledBackgroundColor: AppColors.themeColor.withValues(alpha: 0.5),
@@ -594,15 +561,12 @@ class _ContactInfo extends GetView<HomeController> {
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(30 * (1 - value), 0),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: Obx(() {
         final profile = controller.profile.value;
-        
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -615,7 +579,7 @@ class _ContactInfo extends GetView<HomeController> {
               ),
             ),
             const SizedBox(height: 24),
-            
+
             _InfoCard(
               icon: Icons.phone_rounded,
               title: 'Phone',
@@ -623,9 +587,9 @@ class _ContactInfo extends GetView<HomeController> {
               onTap: () => launchUrl(Uri.parse('tel:${profile?.phone}')),
               gradient: const [Color(0xFF667eea), Color(0xFF764ba2)],
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             _InfoCard(
               icon: Icons.email_rounded,
               title: 'Email',
@@ -633,18 +597,18 @@ class _ContactInfo extends GetView<HomeController> {
               onTap: () => launchUrl(Uri.parse('mailto:${profile?.email}')),
               gradient: const [Color(0xFFf093fb), Color(0xFFf5576c)],
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             _InfoCard(
               icon: Icons.location_on_rounded,
               title: 'Location',
               value: profile?.location ?? 'Surat, India',
               gradient: const [Color(0xFF4facfe), Color(0xFF00f2fe)],
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             Text(
               'Follow Me',
               style: TextStyle(
@@ -653,9 +617,9 @@ class _ContactInfo extends GetView<HomeController> {
                 color: AppColors.sectionDescription,
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             if (profile?.socialLinks != null)
               _buildSocialLinks(profile!.socialLinks),
           ],
@@ -671,28 +635,28 @@ class _ContactInfo extends GetView<HomeController> {
       children: [
         if (links['linkedin'] != null)
           _SocialButton(
-            icon: Icons.business,
+            iconPath: 'assets/icons/linkedin.png',
             label: 'LinkedIn',
             url: links['linkedin']!,
             color: const Color(0xFF0077B5),
           ),
         if (links['github'] != null)
           _SocialButton(
-            icon: Icons.code,
+            iconPath: 'assets/icons/github.png',
             label: 'GitHub',
             url: links['github']!,
             color: const Color(0xFF333333),
           ),
         if (links['twitter'] != null)
           _SocialButton(
-            icon: Icons.alternate_email,
+            iconPath: 'assets/icons/twitter.png',
             label: 'Twitter',
             url: links['twitter']!,
             color: const Color(0xFF1DA1F2),
           ),
         if (links['whatsapp'] != null)
           _SocialButton(
-            icon: Icons.chat,
+            iconPath: 'assets/icons/whatsapp.png',
             label: 'WhatsApp',
             url: links['whatsapp']!,
             color: const Color(0xFF25D366),
@@ -792,7 +756,9 @@ class _InfoCardState extends State<_InfoCard> {
                     Text(
                       widget.value,
                       style: TextStyle(
-                        color: _isHovered ? Colors.white : AppColors.sectionDescription,
+                        color: _isHovered
+                            ? Colors.white
+                            : AppColors.sectionDescription,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -810,13 +776,13 @@ class _InfoCardState extends State<_InfoCard> {
 
 // Social Button
 class _SocialButton extends StatefulWidget {
-  final IconData icon;
+  final String iconPath; // Changed from IconData to String for asset path
   final String label;
   final String url;
   final Color color;
 
   const _SocialButton({
-    required this.icon,
+    required this.iconPath,
     required this.label,
     required this.url,
     required this.color,
@@ -840,7 +806,9 @@ class _SocialButtonState extends State<_SocialButton> {
           duration: const Duration(milliseconds: 300),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: _isHovered ? widget.color : widget.color.withValues(alpha: 0.1),
+            color: _isHovered
+                ? widget.color
+                : widget.color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: widget.color.withValues(alpha: _isHovered ? 0 : 0.3),
@@ -859,10 +827,20 @@ class _SocialButtonState extends State<_SocialButton> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                widget.icon,
+              // PNG Image Icon
+              Image.asset(
+                widget.iconPath,
+                width: 20,
+                height: 20,
                 color: _isHovered ? Colors.white : widget.color,
-                size: 20,
+                errorBuilder: (context, error, stackTrace) {
+                  // Fallback to a default icon if image fails to load
+                  return Icon(
+                    Icons.link,
+                    color: _isHovered ? Colors.white : widget.color,
+                    size: 20,
+                  );
+                },
               ),
               const SizedBox(width: 8),
               Text(
