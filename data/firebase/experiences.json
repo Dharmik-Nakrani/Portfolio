@@ -1,0 +1,14 @@
+{
+  "title": "DevOps Engineer",
+  "organization": "Ebizzinfotech LLP",
+  "location": "Surat",
+  "startDate": "2022-12-01T00:00:00Z",
+  "endDate": null,
+  "isEducation": false,
+  "highlights": [
+    "AWS, DO, Azure, GCP infrastructure management",
+    "CI/CD pipelines for BE/FE applications",
+    "Mobile CI/CD with GitHub Actions"
+  ],
+  "tag": "DevOps"
+}

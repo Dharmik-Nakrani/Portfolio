@@ -1,0 +1,6 @@
+{
+  "name": "CKA - Certified Kubernetes Administrator",
+  "imageUrl": "https://your-storage-url/cka-badge.png",
+  "credlyUrl": "https://credly.com/badges/your-badge-id",
+  "order": 1
+}

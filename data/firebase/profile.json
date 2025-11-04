@@ -1,0 +1,21 @@
+{
+  "name": "DHARMIK NAKRANI",
+  "email": "DharmikN@hotmail.com",
+  "phone": "+919067127486",
+  "location": "Surat, GU, IN-394105",
+  "profileImage": "https://your-storage-url/profile.jpg",
+  "heroImage": "https://your-storage-url/hero.jpg",
+  "typedItems": [
+    "DevOps Engineer",
+    "Kubernetes | Terraform",
+    "AWS | Azure | GCP",
+    "CI/CD | Docker"
+  ],
+  "aboutMe": "I'm a highly passionate and results-driven DevOps engineer...",
+  "socialLinks": {
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "github": "https://github.com/yourprofile",
+    "twitter": "https://twitter.com/yourprofile",
+    "whatsapp": "https://wa.me/919067127486"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Kubernetes",
+  "category": "DevOps",
+  "imageUrl": "https://your-storage-url/kubernetes.png",
+  "percentage": 90,
+  "order": 1
+}
