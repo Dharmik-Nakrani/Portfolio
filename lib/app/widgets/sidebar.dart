@@ -15,10 +15,7 @@ class Sidebar extends GetView<HomeController> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            const Color(0xFF1a1a1a),
-            AppColors.cardBg,
-          ],
+          colors: [const Color(0xFF1a1a1a), AppColors.cardBg],
         ),
         boxShadow: [
           BoxShadow(
@@ -30,14 +27,14 @@ class Sidebar extends GetView<HomeController> {
       ),
       child: Obx(() {
         final profile = controller.profile.value;
-        
+
         return Column(
           children: [
             // Header Section
             _buildHeader(profile),
-            
+
             const SizedBox(height: 8),
-            
+
             // Divider with gradient
             Container(
               height: 1,
@@ -52,9 +49,9 @@ class Sidebar extends GetView<HomeController> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Navigation Items
             Expanded(
               child: ListView(
@@ -98,7 +95,7 @@ class Sidebar extends GetView<HomeController> {
                 ],
               ),
             ),
-            
+
             // Footer with social links
             _buildFooter(profile),
           ],
@@ -129,10 +126,7 @@ class Sidebar extends GetView<HomeController> {
               height: 140,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.themeColor,
-                  width: 3,
-                ),
+                border: Border.all(color: AppColors.themeColor, width: 3),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -143,7 +137,9 @@ class Sidebar extends GetView<HomeController> {
                 ),
               ),
               child: ClipOval(
-                child: profile?.profileImage != null && profile!.profileImage.isNotEmpty
+                child:
+                    profile?.profileImage != null &&
+                        profile!.profileImage.isNotEmpty
                     ? Image.network(
                         profile.profileImage,
                         fit: BoxFit.cover,
@@ -155,9 +151,9 @@ class Sidebar extends GetView<HomeController> {
               ),
             ),
           ),
-          
+
           const SizedBox(height: 20),
-          
+
           // Name with Animation
           Text(
             profile?.name.toUpperCase() ?? 'LOADING...',
@@ -169,9 +165,9 @@ class Sidebar extends GetView<HomeController> {
             ),
             textAlign: TextAlign.center,
           ),
-          
+
           const SizedBox(height: 8),
-          
+
           // Tagline
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -204,10 +200,7 @@ class Sidebar extends GetView<HomeController> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.themeColor,
-            AppColors.themeColor.withOpacity(0.7),
-          ],
+          colors: [AppColors.themeColor, AppColors.themeColor.withOpacity(0.7)],
         ),
       ),
       child: Center(
@@ -227,18 +220,14 @@ class Sidebar extends GetView<HomeController> {
     required IconData icon,
     required String label,
     required int index,
+    final isActive = false, // Add logic to track active section
   }) {
-    return Obx(() {
-      // Track current section (you can enhance this with scroll listener)
-      final isActive = false; // Add logic to track active section
-      
-      return _NavItem(
-        icon: icon,
-        label: label,
-        isActive: isActive,
-        onTap: () => controller.scrollToSection(index),
-      );
-    });
+    return _NavItem(
+      icon: icon,
+      label: label,
+      isActive: isActive,
+      onTap: () => controller.scrollToSection(index),
+    );
   }
 
   Widget _buildFooter(profile) {
@@ -246,10 +235,7 @@ class Sidebar extends GetView<HomeController> {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(
-            color: Colors.white.withOpacity(0.1),
-            width: 1,
-          ),
+          top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
         ),
       ),
       child: Column(
@@ -287,9 +273,9 @@ class Sidebar extends GetView<HomeController> {
                   ),
               ],
             ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Download CV Button
           SizedBox(
             width: double.infinity,
@@ -318,9 +304,9 @@ class Sidebar extends GetView<HomeController> {
               ),
             ),
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // Copyright
           Text(
             '© 2025 Dharmik Nakrani',
@@ -349,16 +335,9 @@ class Sidebar extends GetView<HomeController> {
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: color.withOpacity(0.3),
-            width: 1,
-          ),
+          border: Border.all(color: color.withOpacity(0.3), width: 1),
         ),
-        child: Icon(
-          icon,
-          color: color,
-          size: 20,
-        ),
+        child: Icon(icon, color: color, size: 20),
       ),
     );
   }
@@ -382,7 +361,8 @@ class _NavItem extends StatefulWidget {
   State<_NavItem> createState() => _NavItemState();
 }
 
-class _NavItemState extends State<_NavItem> with SingleTickerProviderStateMixin {
+class _NavItemState extends State<_NavItem>
+    with SingleTickerProviderStateMixin {
   bool _isHovered = false;
   late AnimationController _animController;
   late Animation<double> _scaleAnimation;
@@ -437,8 +417,8 @@ class _NavItemState extends State<_NavItem> with SingleTickerProviderStateMixin 
                 color: widget.isActive
                     ? AppColors.themeColor
                     : _isHovered
-                        ? AppColors.themeColor.withOpacity(0.5)
-                        : Colors.transparent,
+                    ? AppColors.themeColor.withOpacity(0.5)
+                    : Colors.transparent,
                 width: 1,
               ),
             ),
@@ -461,9 +441,9 @@ class _NavItemState extends State<_NavItem> with SingleTickerProviderStateMixin 
                     size: 20,
                   ),
                 ),
-                
+
                 const SizedBox(width: 16),
-                
+
                 // Label
                 Expanded(
                   child: Text(
@@ -480,7 +460,7 @@ class _NavItemState extends State<_NavItem> with SingleTickerProviderStateMixin 
                     ),
                   ),
                 ),
-                
+
                 // Active indicator
                 if (widget.isActive)
                   Container(
