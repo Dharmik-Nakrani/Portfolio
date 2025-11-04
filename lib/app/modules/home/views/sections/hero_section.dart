@@ -240,12 +240,12 @@ class HeroSection extends GetView<HomeController> {
                             _PrimaryButton(
                               label: 'LET\'S TALK',
                               icon: Icons.arrow_forward_rounded,
-                              onPressed: () => controller.scrollToSection(6),
+                              onPressed: () => controller.scrollToSection(7),
                             ),
                             _SecondaryButton(
                               label: 'VIEW WORK',
                               icon: Icons.work_outline_rounded,
-                              onPressed: () => controller.scrollToSection(5),
+                              onPressed: () => controller.scrollToSection(3),
                             ),
                           ],
                         ),
@@ -253,37 +253,6 @@ class HeroSection extends GetView<HomeController> {
 
                       const SizedBox(height: 60),
 
-                      // Stats Row
-                      if (!isMobile)
-                        TweenAnimationBuilder<double>(
-                          duration: const Duration(milliseconds: 1800),
-                          tween: Tween(begin: 0.0, end: 1.0),
-                          curve: Curves.easeOut,
-                          builder: (context, value, child) {
-                            return Opacity(opacity: value, child: child);
-                          },
-                          child: Obx(
-                            () => Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _StatItem(
-                                  number: '${controller.yearsOfExperience}+',
-                                  label: 'Years Exp.',
-                                ),
-                                const SizedBox(width: 60),
-                                _StatItem(
-                                  number: '${controller.totalProjects}+',
-                                  label: 'Projects',
-                                ),
-                                const SizedBox(width: 60),
-                                _StatItem(
-                                  number: '${controller.totalCertifications}',
-                                  label: 'Certifications',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                     ],
                   ),
                 ),

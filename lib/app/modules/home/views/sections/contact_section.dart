@@ -39,7 +39,7 @@ class ContactSection extends GetView<HomeController> {
           // Content
           Padding(
             padding: EdgeInsets.fromLTRB(
-              isWide ? 320 : 20,
+              isWide ? 120 : 20,
               80,
               isWide ? 80 : 20,
               100,

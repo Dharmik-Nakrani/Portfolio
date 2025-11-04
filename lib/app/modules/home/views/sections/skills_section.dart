@@ -35,7 +35,7 @@ class SkillsSection extends GetView<HomeController> {
           // Content
           Padding(
             padding: EdgeInsets.fromLTRB(
-              isWide ? 320 : 20,
+              isWide ? 120 : 20,
               80,
               isWide ? 80 : 20,
               80,
@@ -47,15 +47,6 @@ class SkillsSection extends GetView<HomeController> {
                 children: [
                   _SectionHeader(title: 'TECHNICAL SKILLS'),
                   const SizedBox(height: 20),
-                  Text(
-                    'Technologies I work with',
-                    style: TextStyle(
-                      fontSize: isMobile ? 14 : 16,
-                      color: AppColors.sectionDescription.withOpacity(0.7),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
 
                   // Category Tabs with animation
                   _CategoryTabs(),
@@ -195,13 +186,12 @@ class _CategoryTabs extends GetView<HomeController> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: controller.skillCategories.map((category) {
-            final isSelected =
-                controller.selectedSkillCategory.value == category;
+          final isSelected = controller.selectedSkillCategory.value == category;
           return _CategoryTab(
-              label: category,
-              isSelected: isSelected,
-              onTap: () => controller.selectedSkillCategory.value = category,
-            );
+            label: category,
+            isSelected: isSelected,
+            onTap: () => controller.selectedSkillCategory.value = category,
+          );
         }).toList(),
       ),
     );

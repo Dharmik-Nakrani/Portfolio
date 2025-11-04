@@ -1,0 +1,12 @@
+{
+  "title": "Kubernetes Multi-Cluster Management",
+  "description": "Implemented a multi-cluster Kubernetes setup with ArgoCD for GitOps deployment across AWS, Azure, and GCP environments.",
+  "imageUrl": "https://your-url.com/k8s-project.jpg",
+  "techStack": ["Kubernetes", "ArgoCD", "Terraform", "AWS"],
+  "liveUrl": null,
+  "githubUrl": "https://github.com/yourusername/k8s-multi-cluster",
+  "category": "DevOps",
+  "isFeatured": true,
+  "order": 1,
+  "createdAt": "."
+}

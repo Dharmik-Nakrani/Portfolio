@@ -39,7 +39,7 @@ class ProjectModel {
       category: data['category'] ?? 'Other',
       isFeatured: data['isFeatured'] ?? false,
       order: data['order'] ?? 0,
-      createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: data['createdAt'],
     );
   }
 

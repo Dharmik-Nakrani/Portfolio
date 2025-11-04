@@ -14,6 +14,7 @@ class FirebaseService {
       _firestore.collection('certifications');
   static CollectionReference get testimonials =>
       _firestore.collection('testimonials');
+  static CollectionReference get projects => _firestore.collection('projects');
 
   // Storage
   static Reference getStorageRef(String path) => _storage.ref(path);
@@ -40,6 +41,6 @@ class FirebaseService {
   }
 
   static Stream<QuerySnapshot> getProjectsStream() {
-    return _firestore.collection('projects').orderBy('order').snapshots();
+    return projects.orderBy('order').snapshots();
   }
 }

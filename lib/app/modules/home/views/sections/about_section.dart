@@ -20,7 +20,7 @@ class AboutSection extends GetView<HomeController> {
         width: double.infinity,
         constraints: const BoxConstraints(minHeight: 800),
         padding: EdgeInsets.fromLTRB(
-          isWide ? 320 : 20,
+          isWide ? 120 : 20,
           80,
           isWide ? 80 : 20,
           80,
@@ -53,9 +53,9 @@ class AboutSection extends GetView<HomeController> {
         const SizedBox(height: 40),
         Center(child: _ProfileImageCard(imageUrl: profile?.profileImage)),
         const SizedBox(height: 40),
-        _AboutContent(aboutText: profile?.aboutMe ?? ''),
+        _AboutContent(profile: profile),
         const SizedBox(height: 40),
-        const _SkillHighlights(),
+        _QuickStats(),
         const SizedBox(height: 40),
         _ContactCards(profile: profile),
       ],
@@ -85,9 +85,9 @@ class AboutSection extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _AboutContent(aboutText: profile?.aboutMe ?? ''),
+                  _AboutContent(profile: profile),
                   const SizedBox(height: 40),
-                  const _SkillHighlights(),
+                  _QuickStats(),
                 ],
               ),
             ),
@@ -100,7 +100,7 @@ class AboutSection extends GetView<HomeController> {
   }
 }
 
-// Section Header with animated underline
+// Section Header
 class _SectionHeader extends StatelessWidget {
   final String title;
   
@@ -257,21 +257,6 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
                     ),
                   ),
                 ),
-                
-                // Hover Icon
-                if (_isHovered)
-                  Positioned.fill(
-                    child: Container(
-                      color: AppColors.themeColor.withOpacity(0.1),
-                      child: const Center(
-                        child: Icon(
-                          Icons.person_rounded,
-                          size: 80,
-                          color: AppColors.themeColor,
-                        ),
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),
@@ -303,11 +288,11 @@ class _ProfileImageCardState extends State<_ProfileImageCard> {
   }
 }
 
-// About Content with typing effect
+// About Content
 class _AboutContent extends StatelessWidget {
-  final String aboutText;
+  final profile;
   
-  const _AboutContent({required this.aboutText});
+  const _AboutContent({required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -327,19 +312,26 @@ class _AboutContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Hi There! 👋',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColors.themeColor,
-            ),
+          Row(
+            children: [
+              Text(
+                'Hi There! ',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.sectionDescription,
+                ),
+              ),
+              const Text(
+                '👋',
+                style: TextStyle(fontSize: 28),
+              ),
+            ],
           ),
           const SizedBox(height: 20),
           Text(
-            aboutText.isNotEmpty 
-                ? aboutText 
-                : 'I\'m a highly passionate and results-driven DevOps engineer with expertise in cloud infrastructure, container orchestration, and CI/CD automation.',
+            profile?.aboutMe ?? 
+                'I\'m a highly passionate and results-driven DevOps engineer with expertise in cloud infrastructure, container orchestration, and CI/CD automation.',
             style: TextStyle(
               fontSize: 16,
               height: 1.8,
@@ -348,16 +340,66 @@ class _AboutContent extends StatelessWidget {
             ),
             textAlign: TextAlign.justify,
           ),
+          const SizedBox(height: 24),
+          
+          // Key Highlights
+          _buildHighlight(
+            icon: Icons.rocket_launch_rounded,
+            text: 'Building scalable cloud infrastructure',
+          ),
+          const SizedBox(height: 12),
+          _buildHighlight(
+            icon: Icons.code_rounded,
+            text: 'Automating deployments with CI/CD',
+          ),
+          const SizedBox(height: 12),
+          _buildHighlight(
+            icon: Icons.speed_rounded,
+            text: 'Optimizing performance and reliability',
+          ),
         ],
       ),
     );
   }
+
+  Widget _buildHighlight({required IconData icon, required String text}) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.themeColor.withOpacity(0.2),
+                AppColors.themeColor.withOpacity(0.1),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            color: AppColors.themeColor,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 15,
+              color: AppColors.sectionDescription.withOpacity(0.9),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-// Skill Highlights with animated bars
-class _SkillHighlights extends StatelessWidget {
-  const _SkillHighlights();
-
+// Quick Stats Cards
+class _QuickStats extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
@@ -373,150 +415,134 @@ class _SkillHighlights extends StatelessWidget {
           ),
         );
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Obx(() => Wrap(
+        spacing: 16,
+        runSpacing: 16,
         children: [
-          Text(
-            'Core Expertise',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: AppColors.sectionDescription,
-            ),
+          _StatCard(
+            icon: Icons.work_history_rounded,
+            value: '${controller.yearsOfExperience}+',
+            label: 'Years Experience',
+            gradient: const [Color(0xFF667eea), Color(0xFF764ba2)],
           ),
-          const SizedBox(height: 20),
-          const _SkillBar(label: 'Kubernetes & Docker', percentage: 90, delay: 0),
-          const _SkillBar(label: 'AWS / Azure / GCP', percentage: 85, delay: 100),
-          const _SkillBar(label: 'Terraform & IaC', percentage: 88, delay: 200),
-          const _SkillBar(label: 'CI/CD Pipelines', percentage: 92, delay: 300),
+          _StatCard(
+            icon: Icons.folder_special_rounded,
+            value: '${controller.totalProjects}+',
+            label: 'Projects Completed',
+            gradient: const [Color(0xFF11998e), Color(0xFF38ef7d)],
+          ),
+          _StatCard(
+            icon: Icons.verified_rounded,
+            value: '${controller.totalCertifications}',
+            label: 'Certifications',
+            gradient: const [Color(0xFFf093fb), Color(0xFFf5576c)],
+          ),
         ],
-      ),
+      )),
     );
   }
 }
 
-// Animated Skill Bar
-class _SkillBar extends StatefulWidget {
+class _StatCard extends StatefulWidget {
+  final IconData icon;
+  final String value;
   final String label;
-  final int percentage;
-  final int delay;
+  final List<Color> gradient;
 
-  const _SkillBar({
+  const _StatCard({
+    required this.icon,
+    required this.value,
     required this.label,
-    required this.percentage,
-    required this.delay,
+    required this.gradient,
   });
 
   @override
-  State<_SkillBar> createState() => _SkillBarState();
+  State<_StatCard> createState() => _StatCardState();
 }
 
-class _SkillBarState extends State<_SkillBar> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
-    
-    _animation = Tween<double>(
-      begin: 0.0,
-      end: widget.percentage / 100,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-
-    Future.delayed(Duration(milliseconds: widget.delay), () {
-      if (mounted) _controller.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class _StatCardState extends State<_StatCard> {
+  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.label,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.sectionDescription.withOpacity(0.9),
-                ),
-              ),
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  return Text(
-                    '${(_animation.value * 100).toInt()}%',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.themeColor,
-                    ),
-                  );
-                },
-              ),
-            ],
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: _isHovered
+              ? LinearGradient(colors: widget.gradient)
+              : null,
+          color: _isHovered ? null : Colors.white.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _isHovered
+                ? Colors.transparent
+                : Colors.white.withOpacity(0.1),
+            width: 1,
           ),
-          const SizedBox(height: 8),
-          Container(
-            height: 8,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return FractionallySizedBox(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: _animation.value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.themeColor,
-                          AppColors.themeColor.withOpacity(0.6),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.themeColor.withOpacity(0.4),
-                          blurRadius: 8,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
+          boxShadow: _isHovered
+              ? [
+                  BoxShadow(
+                    color: widget.gradient[0].withOpacity(0.3),
+                    blurRadius: 20,
+                    spreadRadius: 2,
                   ),
-                );
-              },
+                ]
+              : [],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: _isHovered
+                    ? Colors.white.withOpacity(0.2)
+                    : widget.gradient[0].withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                widget.icon,
+                color: _isHovered ? Colors.white : widget.gradient[0],
+                size: 28,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.value,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: _isHovered ? Colors.white : AppColors.themeColor,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  widget.label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: _isHovered
+                        ? Colors.white.withOpacity(0.9)
+                        : AppColors.sectionDescription.withOpacity(0.7),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-// Contact Cards with hover animations
+// Contact Cards
 class _ContactCards extends StatelessWidget {
   final profile;
   
@@ -544,21 +570,21 @@ class _ContactCards extends StatelessWidget {
           _ContactCard(
             icon: Icons.phone_rounded,
             title: 'Phone',
-            value: profile?.phone ?? '',
+            value: profile?.phone ?? '+91 90671 27486',
             onTap: () => launchUrl(Uri.parse('tel:${profile?.phone}')),
             gradient: const [Color(0xFF667eea), Color(0xFF764ba2)],
           ),
           _ContactCard(
             icon: Icons.email_rounded,
             title: 'Email',
-            value: profile?.email ?? '',
+            value: profile?.email ?? 'dharmik@example.com',
             onTap: () => launchUrl(Uri.parse('mailto:${profile?.email}')),
             gradient: const [Color(0xFFf093fb), Color(0xFFf5576c)],
           ),
           _ContactCard(
             icon: Icons.location_on_rounded,
             title: 'Location',
-            value: profile?.location ?? '',
+            value: profile?.location ?? 'Surat, India',
             gradient: const [Color(0xFF4facfe), Color(0xFF00f2fe)],
           ),
         ],
@@ -567,7 +593,7 @@ class _ContactCards extends StatelessWidget {
   }
 }
 
-// Individual Contact Card
+// Contact Card
 class _ContactCard extends StatefulWidget {
   final IconData icon;
   final String title;

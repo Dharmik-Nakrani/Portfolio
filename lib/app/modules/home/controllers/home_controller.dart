@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/data/models/project_model.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../../data/models/profile_model.dart';
 import '../../../data/models/skill_model.dart';
@@ -11,75 +12,101 @@ import '../../../data/services/firebase_service.dart';
 class HomeController extends GetxController {
   final itemScrollController = ItemScrollController();
   final itemPositionsListener = ItemPositionsListener.create();
-  
+
   // Reactive data
   final Rx<ProfileModel?> profile = Rx<ProfileModel?>(null);
   final RxList<SkillModel> skills = <SkillModel>[].obs;
   final RxList<ExperienceModel> experiences = <ExperienceModel>[].obs;
   final RxList<CertificationModel> certifications = <CertificationModel>[].obs;
   final RxList<TestimonialModel> testimonials = <TestimonialModel>[].obs;
-  
+
+  final RxList<ProjectModel> projects = <ProjectModel>[].obs;
+  final RxString selectedProjectCategory = 'All'.obs;
+
+  // Add project categories
+  final List<String> projectCategories = [
+    'All',
+    'DevOps',
+    'Cloud',
+    'Automation',
+    'Monitoring',
+  ];
+
   // Loading states
   final RxBool isLoading = true.obs;
   final RxBool hasError = false.obs;
   final RxString errorMessage = ''.obs;
-  
+
   final RxString selectedSkillCategory = 'DevOps'.obs;
-  
+
   final List<String> skillCategories = [
     'DevOps',
     'Monitoring',
     'Tools',
     'Database',
-    'Programming'
+    'Programming',
   ];
-  
+
+  List<ProjectModel> get filteredProjects {
+    if (selectedProjectCategory.value == 'All') {
+      return projects;
+    }
+    return projects
+        .where((project) => project.category == selectedProjectCategory.value)
+        .toList();
+  }
+
+  List<ProjectModel> get featuredProjects {
+    return projects.where((project) => project.isFeatured).toList();
+  }
+
   // COMPUTED STATS GETTERS
   int get yearsOfExperience {
     // If stored in Firebase, use that
     if (profile.value?.yearsExperience != null) {
       return profile.value!.yearsExperience!;
     }
-    
+
     return 0;
   }
-  
+
   int get totalProjects {
     // If stored in Firebase, use that
     if (profile.value?.totalProjects != null) {
       return profile.value!.totalProjects!;
     }
-    
+
     // Otherwise return count of work experiences (as proxy)
     return experiences.where((exp) => !exp.isEducation).length * 15; // Estimate
   }
-  
+
   int get totalCertifications {
     // If stored in Firebase, use that
     if (profile.value?.totalCertifications != null) {
       return profile.value!.totalCertifications!;
     }
-    
+
     // Otherwise return actual count
     return certifications.length;
   }
-  
+
   @override
   void onInit() {
     super.onInit();
     _loadData();
   }
-  
+
   void _loadData() {
     try {
       Future.delayed(const Duration(seconds: 3), () {
         if (isLoading.value) {
           isLoading.value = false;
           hasError.value = true;
-          errorMessage.value = 'Failed to load data. Please check your Firebase connection.';
+          errorMessage.value =
+              'Failed to load data. Please check your Firebase connection.';
         }
       });
-      
+
       FirebaseService.getProfileStream().listen(
         (snapshot) {
           if (snapshot.exists) {
@@ -98,63 +125,86 @@ class HomeController extends GetxController {
           isLoading.value = false;
         },
       );
-      
+
       FirebaseService.getSkillsStream().listen(
         (snapshot) {
           skills.value = snapshot.docs
-              .map((doc) => SkillModel.fromFirestore(
-                    doc.id,
-                    doc.data() as Map<String, dynamic>,
-                  ))
+              .map(
+                (doc) => SkillModel.fromFirestore(
+                  doc.id,
+                  doc.data() as Map<String, dynamic>,
+                ),
+              )
               .toList();
         },
         onError: (error) {
           print('Error loading skills: $error');
         },
       );
-      
+
       FirebaseService.getExperiencesStream().listen(
         (snapshot) {
           experiences.value = snapshot.docs
-              .map((doc) => ExperienceModel.fromFirestore(
-                    doc.id,
-                    doc.data() as Map<String, dynamic>,
-                  ))
+              .map(
+                (doc) => ExperienceModel.fromFirestore(
+                  doc.id,
+                  doc.data() as Map<String, dynamic>,
+                ),
+              )
               .toList();
         },
         onError: (error) {
           print('Error loading experiences: $error');
         },
       );
-      
+
       FirebaseService.getCertificationsStream().listen(
         (snapshot) {
           certifications.value = snapshot.docs
-              .map((doc) => CertificationModel.fromFirestore(
-                    doc.id,
-                    doc.data() as Map<String, dynamic>,
-                  ))
+              .map(
+                (doc) => CertificationModel.fromFirestore(
+                  doc.id,
+                  doc.data() as Map<String, dynamic>,
+                ),
+              )
               .toList();
         },
         onError: (error) {
           print('Error loading certifications: $error');
         },
       );
-      
+
       FirebaseService.getTestimonialsStream().listen(
         (snapshot) {
           testimonials.value = snapshot.docs
-              .map((doc) => TestimonialModel.fromFirestore(
-                    doc.id,
-                    doc.data() as Map<String, dynamic>,
-                  ))
+              .map(
+                (doc) => TestimonialModel.fromFirestore(
+                  doc.id,
+                  doc.data() as Map<String, dynamic>,
+                ),
+              )
               .toList();
         },
         onError: (error) {
           print('Error loading testimonials: $error');
         },
       );
-      
+
+      FirebaseService.getProjectsStream().listen(
+        (snapshot) {
+          projects.value = snapshot.docs
+              .map(
+                (doc) => ProjectModel.fromFirestore(
+                  doc.id,
+                  doc.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList();
+        },
+        onError: (error) {
+          print('Error loading projects: $error');
+        },
+      );
     } catch (e) {
       print('Error in _loadData: $e');
       hasError.value = true;
@@ -162,19 +212,21 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
-  
+
   List<SkillModel> get filteredSkills {
-    return skills.where((skill) => skill.category == selectedSkillCategory.value).toList();
+    return skills
+        .where((skill) => skill.category == selectedSkillCategory.value)
+        .toList();
   }
-  
+
   List<ExperienceModel> get educationItems {
     return experiences.where((exp) => exp.isEducation).toList();
   }
-  
+
   List<ExperienceModel> get workExperience {
     return experiences.where((exp) => !exp.isEducation).toList();
   }
-  
+
   void scrollToSection(int index) {
     if (itemScrollController.isAttached) {
       itemScrollController.scrollTo(
@@ -184,11 +236,11 @@ class HomeController extends GetxController {
       );
     }
   }
-  
+
   void scrollToTop() {
     scrollToSection(0);
   }
-  
+
   void retryLoading() {
     isLoading.value = true;
     hasError.value = false;

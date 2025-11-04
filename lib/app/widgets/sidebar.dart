@@ -74,23 +74,28 @@ class Sidebar extends GetView<HomeController> {
                   ),
                   _buildNavItem(
                     icon: Icons.work_rounded,
-                    label: 'EXPERIENCE',
+                    label: 'PROJECTS',
                     index: 3,
+                  ),
+                  _buildNavItem(
+                    icon: Icons.article,
+                    label: 'EXPERIENCE',
+                    index: 4,
                   ),
                   _buildNavItem(
                     icon: Icons.verified_rounded,
                     label: 'CERTIFICATIONS',
-                    index: 4,
+                    index: 5,
                   ),
                   _buildNavItem(
                     icon: Icons.star_rounded,
                     label: 'TESTIMONIALS',
-                    index: 5,
+                    index: 6,
                   ),
                   _buildNavItem(
                     icon: Icons.mail_rounded,
                     label: 'CONTACT',
-                    index: 6,
+                    index: 7,
                   ),
                 ],
               ),

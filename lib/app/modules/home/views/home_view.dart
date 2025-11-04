@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/app/modules/home/views/sections/projects_section.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../controllers/home_controller.dart';
 import '../../../widgets/sidebar.dart';
@@ -33,11 +34,11 @@ class HomeView extends GetView<HomeController> {
                   if (controller.isLoading.value) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  
+
                   return ScrollablePositionedList.builder(
                     itemScrollController: controller.itemScrollController,
                     itemPositionsListener: controller.itemPositionsListener,
-                    itemCount: 7,
+                    itemCount: 8,
                     itemBuilder: (context, index) {
                       return _buildSection(index);
                     },
@@ -49,9 +50,7 @@ class HomeView extends GetView<HomeController> {
           Positioned(
             bottom: 15,
             right: 15,
-            child: BackToTopButton(
-              onTap: controller.scrollToTop,
-            ),
+            child: BackToTopButton(onTap: controller.scrollToTop),
           ),
         ],
       ),
@@ -78,12 +77,14 @@ class HomeView extends GetView<HomeController> {
       case 2:
         return const SkillsSection();
       case 3:
-        return const ExperienceSection();
+        return const ProjectsSection(); // NEW SECTION
       case 4:
-        return const CertificationSection();
+        return const ExperienceSection();
       case 5:
-        return const TestimonialsSection();
+        return const CertificationSection();
       case 6:
+        return const TestimonialsSection();
+      case 7:
         return const ContactSection();
       default:
         return const SizedBox.shrink();

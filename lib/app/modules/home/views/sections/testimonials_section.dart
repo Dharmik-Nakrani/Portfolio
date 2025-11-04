@@ -16,7 +16,7 @@ class TestimonialsSection extends GetView<HomeController> {
     return Container(
       width: double.infinity,
       constraints: const BoxConstraints(minHeight: 800),
-      padding: EdgeInsets.fromLTRB(isWide ? 320 : 20, 80, isWide ? 80 : 20, 80),
+      padding: EdgeInsets.fromLTRB(isWide ? 120 : 20, 80, isWide ? 80 : 20, 80),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,

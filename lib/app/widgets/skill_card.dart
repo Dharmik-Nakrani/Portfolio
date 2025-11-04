@@ -105,77 +105,42 @@ class _EnhancedSkillCardState extends State<EnhancedSkillCard>
               ]
             : [],
       ),
-      child: Stack(
-        children: [
-          // Skill Icon/Logo
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.themeColor.withOpacity(0.2),
-                        AppColors.themeColor.withOpacity(0.05),
-                      ],
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: widget.skill.imageUrl.isNotEmpty
-                      ? ClipOval(
-                          child: Image.network(
-                            widget.skill.imageUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return _buildIconFallback();
-                            },
-                          ),
-                        )
-                      : _buildIconFallback(),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  widget.skill.name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.sectionDescription,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          // Category Badge
-          Positioned(
-            top: 12,
-            right: 12,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
               decoration: BoxDecoration(
-                color: AppColors.themeColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.themeColor.withOpacity(0.3),
-                  width: 1,
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.themeColor.withOpacity(0.2),
+                    AppColors.themeColor.withOpacity(0.05),
+                  ],
                 ),
+                shape: BoxShape.circle,
               ),
-              child: Text(
-                widget.skill.category,
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.themeColor,
-                  letterSpacing: 0.5,
-                ),
-              ),
+              child: widget.skill.imageUrl.isNotEmpty
+                  ? Image.network(
+                      widget.skill.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return _buildIconFallback();
+                      },
+                    )
+                  : _buildIconFallback(),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            Text(
+              widget.skill.name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.sectionDescription,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
