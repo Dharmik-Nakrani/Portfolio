@@ -112,79 +112,60 @@ class HomeController extends GetxController {
         },
       );
 
-      FirebaseService.getSkillsStream().listen(
-        (snapshot) {
-          skills.value = snapshot.docs
-              .map(
-                (doc) => SkillModel.fromFirestore(
-                  doc.id,
-                  doc.data() as Map<String, dynamic>,
-                ),
-              )
-              .toList();
-        },
-        onError: (error) {
-        },
-      );
+      FirebaseService.getSkillsStream().listen((snapshot) {
+        skills.value = snapshot.docs
+            .map(
+              (doc) => SkillModel.fromFirestore(
+                doc.id,
+                doc.data() as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+      }, onError: (error) {});
 
-      FirebaseService.getExperiencesStream().listen(
-        (snapshot) {
-          experiences.value = snapshot.docs
-              .map(
-                (doc) => ExperienceModel.fromFirestore(
-                  doc.id,
-                  doc.data() as Map<String, dynamic>,
-                ),
-              )
-              .toList();
-        },
-        onError: (error) {
-        },
-      );
+      FirebaseService.getExperiencesStream().listen((snapshot) {
+        experiences.value = snapshot.docs
+            .map(
+              (doc) => ExperienceModel.fromFirestore(
+                doc.id,
+                doc.data() as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+      }, onError: (error) {});
 
-      FirebaseService.getCertificationsStream().listen(
-        (snapshot) {
-          certifications.value = snapshot.docs
-              .map(
-                (doc) => CertificationModel.fromFirestore(
-                  doc.id,
-                  doc.data() as Map<String, dynamic>,
-                ),
-              )
-              .toList();
-        },
-        onError: (error) {
-        },
-      );
+      FirebaseService.getCertificationsStream().listen((snapshot) {
+        certifications.value = snapshot.docs
+            .map(
+              (doc) => CertificationModel.fromFirestore(
+                doc.id,
+                doc.data() as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+      }, onError: (error) {});
 
-      FirebaseService.getTestimonialsStream().listen(
-        (snapshot) {
-          testimonials.value = snapshot.docs
-              .map(
-                (doc) => TestimonialModel.fromFirestore(
-                  doc.id,
-                  doc.data() as Map<String, dynamic>,
-                ),
-              )
-              .toList();        },
-        onError: (error) {
-        },
-      );
+      FirebaseService.getTestimonialsStream().listen((snapshot) {
+        testimonials.value = snapshot.docs
+            .map(
+              (doc) => TestimonialModel.fromFirestore(
+                doc.id,
+                doc.data() as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+      }, onError: (error) {});
 
-      FirebaseService.getProjectsStream().listen(
-        (snapshot) {
-          projects.value = snapshot.docs
-              .map(
-                (doc) => ProjectModel.fromFirestore(
-                  doc.id,
-                  doc.data() as Map<String, dynamic>,
-                ),
-              )
-              .toList();
-        },
-        onError: (error) {
-        },
-      );
+      FirebaseService.getProjectsStream().listen((snapshot) {
+        projects.value = snapshot.docs
+            .map(
+              (doc) => ProjectModel.fromFirestore(
+                doc.id,
+                doc.data() as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+      }, onError: (error) {});
     } catch (e) {
       hasError.value = true;
       errorMessage.value = 'Failed to initialize Firebase: $e';
@@ -199,16 +180,20 @@ class HomeController extends GetxController {
   }
 
   List<ExperienceModel> get educationItems {
-    return experiences.where((exp) => exp.isEducation).toList();
+    final items = experiences.where((exp) => exp.isEducation).toList();
+    items.sort((a, b) => b.order.compareTo(a.order)); // REVERSED: b before a
+    return items;
   }
 
   List<ExperienceModel> get workExperience {
-    return experiences.where((exp) => !exp.isEducation).toList();
+    final items = experiences.where((exp) => !exp.isEducation).toList();
+    items.sort((a, b) => b.order.compareTo(a.order)); // REVERSED: b before a
+    return items;
   }
 
   List<ProjectModel> get filteredProjects {
     if (selectedProjectCategory.value == 'All') {
-     return projects;
+      return projects;
     }
     return projects
         .where((project) => project.category == selectedProjectCategory.value)

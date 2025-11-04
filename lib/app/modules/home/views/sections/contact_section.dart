@@ -433,8 +433,9 @@ class _ContactFormState extends State<_ContactForm> {
                 maxLines: 5,
                 validator: (v) {
                   if (v?.isEmpty ?? true) return 'Message is required';
-                  if (v!.length < 10)
+                  if (v!.length < 10) {
                     return 'Message must be at least 10 characters';
+                  }
                   return null;
                 },
               ),

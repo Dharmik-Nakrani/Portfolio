@@ -32,7 +32,7 @@ class FirebaseService {
   }
 
   static Stream<QuerySnapshot> getExperiencesStream() {
-    return experiences.orderBy('startDate', descending: true).snapshots();
+    return experiences.orderBy('order', descending: true).snapshots();
   }
 
   static Stream<QuerySnapshot> getCertificationsStream() {

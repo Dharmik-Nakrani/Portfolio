@@ -9,6 +9,7 @@ class ExperienceModel {
   final bool isEducation;
   final List<String> highlights;
   final String? tag;
+  final int order;
 
   ExperienceModel({
     required this.id,
@@ -20,6 +21,7 @@ class ExperienceModel {
     required this.isEducation,
     required this.highlights,
     this.tag,
+    required this.order,
   });
 
   factory ExperienceModel.fromFirestore(String id, Map<String, dynamic> data) {
@@ -33,7 +35,22 @@ class ExperienceModel {
       isEducation: data['isEducation'] ?? false,
       highlights: List<String>.from(data['highlights'] ?? []),
       tag: data['tag'],
+      order: data['order'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'title': title,
+      'organization': organization,
+      'location': location,
+      'startDate': startDate,
+      'endDate': endDate,
+      'isEducation': isEducation,
+      'highlights': highlights,
+      'tag': tag,
+      'order': order,
+    };
   }
 
   String get dateRange {

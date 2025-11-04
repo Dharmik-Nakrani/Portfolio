@@ -48,8 +48,8 @@ class ExperienceSection extends GetView<HomeController> {
   }
 
   Widget _buildMobileTimeline(List education, List work) {
-    final allItems = [...education, ...work]
-      ..sort((a, b) => b.startDate.compareTo(a.startDate));
+    final allItems = [...education, ...work];
+    allItems.sort((a, b) => b.order.compareTo(a.order)); // SORT BY ORDER
 
     return Column(
       children: allItems.asMap().entries.map((entry) {
@@ -63,8 +63,8 @@ class ExperienceSection extends GetView<HomeController> {
   }
 
   Widget _buildDesktopTimeline(List education, List work, bool isWide) {
-    final allItems = [...education, ...work]
-      ..sort((a, b) => b.startDate.compareTo(a.startDate));
+    final allItems = [...education, ...work];
+    allItems.sort((a, b) => b.order.compareTo(a.order)); // SORT BY ORDER
 
     return Stack(
       children: [
