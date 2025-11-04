@@ -199,13 +199,6 @@ class _EnhancedSkillCardState extends State<EnhancedSkillCard>
                             color: AppColors.themeColor,
                           ),
                         ),
-                        const Text(
-                          'Proficiency',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColors.sectionDescription,
-                          ),
-                        ),
                       ],
                     ),
                   ],

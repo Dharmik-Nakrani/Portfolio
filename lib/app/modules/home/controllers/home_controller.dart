@@ -47,19 +47,6 @@ class HomeController extends GetxController {
     'Programming',
   ];
 
-  List<ProjectModel> get filteredProjects {
-    if (selectedProjectCategory.value == 'All') {
-      return projects;
-    }
-    return projects
-        .where((project) => project.category == selectedProjectCategory.value)
-        .toList();
-  }
-
-  List<ProjectModel> get featuredProjects {
-    return projects.where((project) => project.isFeatured).toList();
-  }
-
   // COMPUTED STATS GETTERS
   int get yearsOfExperience {
     // If stored in Firebase, use that
@@ -183,8 +170,7 @@ class HomeController extends GetxController {
                   doc.data() as Map<String, dynamic>,
                 ),
               )
-              .toList();
-        },
+              .toList();        },
         onError: (error) {
           print('Error loading testimonials: $error');
         },
@@ -200,6 +186,7 @@ class HomeController extends GetxController {
                 ),
               )
               .toList();
+          print("Test${projects}");
         },
         onError: (error) {
           print('Error loading projects: $error');
@@ -225,6 +212,19 @@ class HomeController extends GetxController {
 
   List<ExperienceModel> get workExperience {
     return experiences.where((exp) => !exp.isEducation).toList();
+  }
+
+  List<ProjectModel> get filteredProjects {
+    if (selectedProjectCategory.value == 'All') {
+     return projects;
+    }
+    return projects
+        .where((project) => project.category == selectedProjectCategory.value)
+        .toList();
+  }
+
+  List<ProjectModel> get featuredProjects {
+    return projects.where((project) => project.isFeatured).toList();
   }
 
   void scrollToSection(int index) {

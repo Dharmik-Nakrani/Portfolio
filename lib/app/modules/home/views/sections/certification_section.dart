@@ -47,15 +47,6 @@ class CertificationSection extends GetView<HomeController> {
                 children: [
                   _SectionHeader(title: 'CERTIFICATIONS'),
                   const SizedBox(height: 20),
-                  Text(
-                    'Professional achievements and credentials',
-                    style: TextStyle(
-                      fontSize: isMobile ? 14 : 16,
-                      color: AppColors.sectionDescription.withOpacity(0.7),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 60),
 
                   // Certifications Grid
                   Obx(() {

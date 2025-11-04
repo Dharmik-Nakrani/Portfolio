@@ -11,7 +11,6 @@ class SkillsSection extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isWide = size.width >= 1200;
-    final isMobile = size.width < 600;
 
     return Container(
       width: double.infinity,

@@ -406,8 +406,8 @@ class _NavItemState extends State<_NavItem>
         child: GestureDetector(
           onTap: widget.onTap,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            margin: const EdgeInsets.only(bottom: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
               gradient: widget.isActive || _isHovered
                   ? LinearGradient(

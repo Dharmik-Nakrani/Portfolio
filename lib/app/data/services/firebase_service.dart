@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:portfolio/app/data/models/contact_message_model.dart';
 
 class FirebaseService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -15,6 +16,8 @@ class FirebaseService {
   static CollectionReference get testimonials =>
       _firestore.collection('testimonials');
   static CollectionReference get projects => _firestore.collection('projects');
+  static CollectionReference get contact_messages =>
+      _firestore.collection('contact_messages');
 
   // Storage
   static Reference getStorageRef(String path) => _storage.ref(path);
@@ -42,5 +45,15 @@ class FirebaseService {
 
   static Stream<QuerySnapshot> getProjectsStream() {
     return projects.orderBy('order').snapshots();
+  }
+
+  static Future<bool> submitContactMessage(ContactMessageModel message) async {
+    try {
+      await contact_messages.add(message.toFirestore());
+      return true;
+    } catch (e) {
+      print('Error submitting contact message: $e');
+      return false;
+    }
   }
 }

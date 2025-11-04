@@ -35,16 +35,6 @@ class ExperienceSection extends GetView<HomeController> {
             children: [
               _SectionHeader(title: 'EDUCATION & EXPERIENCE'),
               const SizedBox(height: 20),
-              Text(
-                'My academic journey and professional career',
-                style: TextStyle(
-                  fontSize: isMobile ? 14 : 16,
-                  color: AppColors.sectionDescription.withOpacity(0.7),
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 60),
-
               // Timeline View
               if (isMobile)
                 _buildMobileTimeline(education, work)

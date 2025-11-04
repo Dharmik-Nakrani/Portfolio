@@ -11,7 +11,6 @@ class ProjectsSection extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isWide = size.width >= 1200;
-    final isMobile = size.width < 600;
     
     return Container(
       width: double.infinity,
@@ -39,15 +38,6 @@ class ProjectsSection extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _SectionHeader(title: 'FEATURED PROJECTS'),
-            const SizedBox(height: 20),
-            Text(
-              'Showcasing my work and achievements',
-              style: TextStyle(
-                fontSize: isMobile ? 14 : 16,
-                color: AppColors.sectionDescription.withOpacity(0.7),
-                letterSpacing: 0.5,
-              ),
-            ),
             const SizedBox(height: 40),
             
             // Category Tabs
@@ -58,7 +48,9 @@ class ProjectsSection extends GetView<HomeController> {
             // Projects Grid
             Obx(() {
               final projects = controller.filteredProjects;
-              
+              print(projects
+                  .map((p) => p.title)
+                  .toList()); // Debugging line to check filtered projects
               if (projects.isEmpty) {
                 return _buildEmptyState();
               }

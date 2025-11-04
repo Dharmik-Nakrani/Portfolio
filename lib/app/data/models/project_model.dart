@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ProjectModel {
   final String id;
   final String title;
@@ -11,7 +9,7 @@ class ProjectModel {
   final String category; // e.g., "DevOps", "Web", "Mobile"
   final bool isFeatured;
   final int order;
-  final DateTime createdAt;
+  final String createdAt;
 
   ProjectModel({
     required this.id,
@@ -54,7 +52,7 @@ class ProjectModel {
       'category': category,
       'isFeatured': isFeatured,
       'order': order,
-      'createdAt': Timestamp.fromDate(createdAt),
+      'createdAt': createdAt,
     };
   }
 }

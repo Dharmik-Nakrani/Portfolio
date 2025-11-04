@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../data/models/experience_model.dart';
 import '../theme/app_colors.dart';
 
 // Timeline Card with animation
